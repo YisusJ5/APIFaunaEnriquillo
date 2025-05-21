@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIFaunaEnriquillo.Core.DomainLayer.Utils
+namespace APIFaunaEnriquillo.Core.DomainLayer.Enums
 {
-    internal class clase
+    public enum ErrorType
     {
+        Failure,
+        NotFound
     }
 }
