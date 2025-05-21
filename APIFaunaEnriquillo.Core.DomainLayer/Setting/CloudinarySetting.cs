@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace APIFaunaEnriquillo.Core.DomainLayer.Setting
 {
-    internal class clase
+    public class CloudinarySetting
     {
+        public string UrlImage { get; set; }
     }
 }
