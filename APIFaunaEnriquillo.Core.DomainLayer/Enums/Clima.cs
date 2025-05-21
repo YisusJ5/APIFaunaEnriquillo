@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace APIFaunaEnriquillo.Core.DomainLayer.Enums
 {
-    public enum Ejemplo
+    public enum Clima
     {
-    }   
+        Tropical,
+        Desertico,
+        Templado,
+        Polar,
+        Mediterraneo,
+        Otro
+    }
 }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace APIFaunaEnriquillo.Core.DomainLayer.Enums
 {
-    public enum Ejemplo
+    public enum TipoDesarrolloEmbrionario
     {
-    }   
+        Oviparo,
+        Viviparo,
+        Ovoviviparo
+    }
 }

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace APIFaunaEnriquillo.Core.DomainLayer.Enums
 {
-    public enum Ejemplo
+    public enum Dieta
     {
-    }   
+        Herbivoro,
+        Carnivoro,
+        Omnivoro,
+        Detritivoro
+    }
 }
