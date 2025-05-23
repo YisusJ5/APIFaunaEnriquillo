@@ -11,12 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\HabitatDto\" />
-    <Folder Include="Dtos\AnimalesDto\" />
     <Folder Include="Dtos\Account\" />
     <Folder Include="Dtos\Jwt\" />
-    <Folder Include="Dtos\PlantasDto\" />
-    <Folder Include="Interfaces\Repository\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

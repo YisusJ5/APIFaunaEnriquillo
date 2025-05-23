@@ -9,12 +9,12 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Pagination
     public class PageResult<T>
     {
 
-        public PageResult(IEnumerable<T> items, int totalItems, int totalPages, int pageSize)
+        public PageResult(IEnumerable<T> items,int totalItems, int currentPage,  int pageSize)
         {
             Items = items;
             TotalItems = totalItems;
-            TotalPages = totalPages;
-            CurrentPage = (int)Math.Ceiling(totalItems / (double) pageSize );
+            TotalPages =(int)Math.Ceiling(totalItems / (double) pageSize ); 
+            CurrentPage = currentPage;
 
         }
         public IEnumerable<T> Items { get; set; }
