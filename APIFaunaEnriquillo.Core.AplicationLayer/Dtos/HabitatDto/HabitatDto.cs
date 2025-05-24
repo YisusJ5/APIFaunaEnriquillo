@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace APIFaunaEnriquillo.Core.AplicationLayer.Dtos.HabitatDto
 {
 
-    public sealed record AnimalDto(
+    public sealed record HabitatDto(
          Guid IdHabitat,
          string Nombre,
          Clima Clima,
