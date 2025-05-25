@@ -1,4 +1,5 @@
 ﻿using APIFaunaEnriquillo.Core.AplicationLayer.Pagination;
+using APIFaunaEnriquillo.Core.DomainLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository
         Task DeleteChangesAsync(TEntity entity, CancellationToken cancellationToken);
 
         Task<bool> ValidateAsync(Expression<Func<TEntity, bool>> predicate);
+       
+
     }
 }

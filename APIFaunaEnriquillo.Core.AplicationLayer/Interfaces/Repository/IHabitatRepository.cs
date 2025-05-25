@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository
 {
-    public interface IHabitatRepository 
+    public interface IHabitatRepository: ICommonRepository<Habitat>
     {
-        Task<Habitat> FilterHabitatName(string nameHabitat, CancellationToken cancellationToken);
+        Task<Habitat> FilterByCommonNameAsync(string commonName, CancellationToken cancellationToken);
+        Task<Habitat> FilterByScientificNameAsync(string commonName, CancellationToken cancellationToken);
     }
     
 }

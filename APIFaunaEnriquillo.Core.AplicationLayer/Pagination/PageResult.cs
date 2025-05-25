@@ -8,7 +8,10 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Pagination
 {
     public class PageResult<T>
     {
-
+        public PageResult()
+        {
+            
+        }
         public PageResult(IEnumerable<T> items,int totalItems, int currentPage,  int pageSize)
         {
             Items = items;

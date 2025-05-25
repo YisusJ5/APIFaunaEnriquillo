@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository
 {
-    public interface IPlantaRepository
+    public interface IPlantaRepository: ICommonRepository<Planta>
     {
         Task<Planta> FilterByCommonNameAsync(string commonName, CancellationToken cancellationToken);
         Task<Planta> FilterByScientificNameAsync(string commonName, CancellationToken cancellationToken);

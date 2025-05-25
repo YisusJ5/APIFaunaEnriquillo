@@ -9,13 +9,14 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Dtos.HabitatDto
 {
 
     public sealed record HabitatDto(
-         Guid IdHabitat,
-         string Nombre,
+         Guid? IdHabitat,
+         string? NombreComun,
+         string? NombreCientifico,
          Clima Clima,
-         string Descripcion,
-         string UbicacionGeografica,
-         string Imagen,
+         string? Descripcion,
+         string? UbicacionGeograficaUrl,
+         string? ImagenUrl,
          DateTime? CreatedAt,
-         DateTime? UpdateAt
+         DateTime? UpdatedAt
     );
 }

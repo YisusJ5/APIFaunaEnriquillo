@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.HabitatDto;
 
 namespace APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Service
 {
-    public interface ICloudinaryService
+    public interface IHabitatService: ICommonService<HabitatInsertDto, HabitatUpdateDto, HabitatDto>
     {
-        Task<string> UploadImageAsync(
-            Stream fileStream,
-            string imageName,
-            CancellationToken cancellationToken
-            );
-
     }
 }

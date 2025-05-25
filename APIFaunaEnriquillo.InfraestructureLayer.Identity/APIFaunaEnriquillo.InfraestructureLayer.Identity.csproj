@@ -8,15 +8,24 @@
 
   <ItemGroup>
     <PackageReference Include="CloudinaryDotNet" Version="1.27.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.15">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.11.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Logging" Version="8.11.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.11.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.11.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\APIFaunaEnriquillo.Core.AplicationLayer\APIFaunaEnriquillo.Core.AplicationLayer.csproj" />
+    <ProjectReference Include="..\APIFaunaEnriquillo.Core.DomainLayer\APIFaunaEnriquillo.Core.DomainLayer.csproj" />
     <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Shared\APIFaunaEnriquillo.InfraestructureLayer.Shared.csproj" />
   </ItemGroup>
 

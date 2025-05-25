@@ -1,4 +1,6 @@
-﻿using APIFaunaEnriquillo.InfrastructureLayer.Persistence.Data;
+﻿using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository;
+using APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository;
+using APIFaunaEnriquillo.InfrastructureLayer.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,12 @@ namespace APIFaunaEnriquillo.Core.DomainLayer
                 b.UseSqlServer(configuration.GetConnectionString("FaunaEnriquillo"),
                     c => c.MigrationsAssembly(typeof(FaunaDbContext).Assembly.FullName));
             });
+            #endregion
+            #region Repositories
+            services.AddTransient(typeof(ICommonRepository<>), typeof(CommonRepository<>));
+            services.AddTransient<IHabitatRepository, HabitatRepository>();
+            services.AddTransient<IAnimalRepository, AnimalRepository>();
+            services.AddTransient<IPlantaRepository, PlantaRepository>();
             #endregion
         }
     }

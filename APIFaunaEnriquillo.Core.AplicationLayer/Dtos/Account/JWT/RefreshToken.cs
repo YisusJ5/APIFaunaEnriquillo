@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.JWT
+namespace APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Jwt
 {
     internal class RefreshToken
     {

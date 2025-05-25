@@ -18,7 +18,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository
         {
             return _dbContext.Set<Planta>().
                 AsTracking().
-                Where(planta => planta.NombreCientifico.ToLower().Contains(commonName.ToLower())).
+                Where(planta => planta.NombreComun.ToLower().Contains(commonName.ToLower())).
                 FirstOrDefaultAsync(cancellationToken);
         }
 
@@ -26,7 +26,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository
         {
             return _dbContext.Set<Planta>().
                 AsTracking().
-                Where(planta=> planta.NombreComun.ToLower().Contains(ScientificName.ToLower())).
+                Where(planta=> planta.NombreCientifico.ToLower().Contains(ScientificName.ToLower())).
                 FirstOrDefaultAsync(cancellationToken);
 
         }
