@@ -10,14 +10,21 @@ namespace APIFaunaEnriquillo.Core.DomainLayer.Models
 {
     public class Animal: CreationDate
     {
+<<<<<<< HEAD
         public Guid IdAnimal { get; set; }
         public string NombreComun { get; set; }
         public string NombreCientifico { get; set; }
+=======
+        public Guid? IdAnimal { get; set; }
+        public string? NombreComun { get; set; }
+        public string? NombreCientifico { get; set; }
+>>>>>>> origin/dev
         public Dieta Dieta { get; set; }
         public EstadoDeConservacion EstadoDeConservacion { get; set; }
         public FormaDeReproduccion FormaDeReproduccion { get; set; }
         public TipoDesarrolloEmbrionario TipoDesarrolloEmbrionario { get; set; }
         public EstatusBiogeográficoAnimales EstatusBiogeográfico { get; set; }
+<<<<<<< HEAD
         public string Filo { get; set; }
         public string Clase { get; set; }
         public string Orden { get; set; }
@@ -28,6 +35,18 @@ namespace APIFaunaEnriquillo.Core.DomainLayer.Models
         public string Observaciones { get; set; }
         public string DistribucionGeograficaUrl { get; set; }
         public string ImagenUrl { get; set; }
+=======
+        public string? Filo { get; set; }
+        public string? Clase { get; set; }
+        public string? Orden { get; set; }
+        public string? Familia { get; set; }
+        public string? Genero { get; set; }
+        public string? Especie { get; set; }
+        public string? SubEspecie { get; set; }
+        public string? Observaciones { get; set; }
+        public string? DistribucionGeograficaUrl { get; set; }
+        public string? ImagenUrl { get; set; }
+>>>>>>> origin/dev
 
         public Guid? HabitatId { get; set; }
         public Habitat? Habitat { get; set; }

@@ -8,8 +8,8 @@ namespace APIFaunaEnriquillo.Core.DomainLayer.Common
 {
     public class CreationDate
     {
-        public string CreatdAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        public string UpdatedAt { get; set; }      
+        public DateTime? UpdatedAt { get; set; }      
     }
 }

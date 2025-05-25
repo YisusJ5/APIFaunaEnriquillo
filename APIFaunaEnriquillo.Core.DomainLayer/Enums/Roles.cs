@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APIFaunaEnriquillo.Core.DomainLayer.Enums
 {
-    public enum Rol
+    public enum Roles
     {
         Admin,
         Editor

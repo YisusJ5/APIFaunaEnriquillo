@@ -1,4 +1,7 @@
 using APIFaunaEnriquillo.Core.DomainLayer;
+using APIFaunaEnriquillo.Core.AplicationLayer;
+using APIFaunaEnriquillo.InfraestructureLayer.Identity;
+using APIFaunaEnriquillo.InfrastructureLayer.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager? config = builder.Configuration;
@@ -9,6 +12,14 @@ var connectionString = builder.Configuration.GetConnectionString("FaunaEnriquill
 
 //Inyeccion de dependencias
 builder.Services.AddPersistenceMethod(config);
+builder.Services.AddAplicationLayer();
+builder.Services.AddIdentityLayer(config);  
+builder.Services.AddSharedLayer(config);
+
+
+
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
