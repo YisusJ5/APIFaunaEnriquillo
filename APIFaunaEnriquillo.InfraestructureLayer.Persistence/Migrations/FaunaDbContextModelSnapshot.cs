@@ -38,8 +38,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("DistribucionGeograficaUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Especie")
                         .HasMaxLength(100)
@@ -67,12 +66,10 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid?>("HabitatId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImagenUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreCientifico")
                         .HasMaxLength(250)
@@ -83,8 +80,8 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Observaciones")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
 
                     b.Property<string>("Orden")
                         .HasMaxLength(200)
@@ -125,8 +122,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("ImagenUrl")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreCientifico")
                         .HasMaxLength(250)
@@ -137,8 +133,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("UbicacionGeograficaUrl")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -163,8 +158,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DistribucionGeograficaUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Especie")
                         .HasMaxLength(200)
@@ -189,12 +183,10 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<Guid?>("HabitatId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImagenUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreCientifico")
                         .HasMaxLength(250)
@@ -205,8 +197,8 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Observaciones")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
 
                     b.Property<string>("Orden")
                         .HasMaxLength(200)
@@ -232,8 +224,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                     b.HasOne("APIFaunaEnriquillo.Core.DomainLayer.Models.Habitat", "Habitat")
                         .WithMany("Animales")
                         .HasForeignKey("HabitatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Habitat");
                 });
@@ -243,8 +234,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                     b.HasOne("APIFaunaEnriquillo.Core.DomainLayer.Models.Habitat", "Habitat")
                         .WithMany("Plantas")
                         .HasForeignKey("HabitatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Habitat");
                 });

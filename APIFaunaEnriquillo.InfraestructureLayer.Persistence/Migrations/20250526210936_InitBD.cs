@@ -20,8 +20,8 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                     NombreCientifico = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Clima = table.Column<int>(type: "int", nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    UbicacionGeograficaUrl = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true),
-                    ImagenUrl = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true),
+                    UbicacionGeograficaUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagenUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -49,10 +49,10 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                     Genero = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Especie = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     SubEspecie = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Observaciones = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    DistribucionGeograficaUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    ImagenUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    HabitatId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Observaciones = table.Column<string>(type: "nvarchar(800)", maxLength: 800, nullable: true),
+                    DistribucionGeograficaUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagenUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HabitatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -64,7 +64,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                         column: x => x.HabitatId,
                         principalTable: "Habitats",
                         principalColumn: "IdHabitat",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,10 +83,10 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                     Genero = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Especie = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     SubEspecie = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Observaciones = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    DistribucionGeograficaUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    ImagenUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    HabitatId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Observaciones = table.Column<string>(type: "nvarchar(800)", maxLength: 800, nullable: true),
+                    DistribucionGeograficaUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagenUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HabitatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -98,7 +98,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                         column: x => x.HabitatId,
                         principalTable: "Habitats",
                         principalColumn: "IdHabitat",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(

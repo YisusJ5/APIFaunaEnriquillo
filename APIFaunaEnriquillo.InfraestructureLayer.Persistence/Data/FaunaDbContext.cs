@@ -49,13 +49,11 @@ namespace APIFaunaEnriquillo.InfrastructureLayer.Persistence.Data
                 entity.Property(h => h.NombreComun).HasMaxLength(250);
                 entity.Property(h => h.NombreCientifico).HasMaxLength(250);
                 entity.Property(h => h.Descripcion).HasMaxLength(500);
-                entity.Property(h => h.UbicacionGeograficaUrl).HasMaxLength(400);
-                entity.Property(h => h.ImagenUrl).HasMaxLength(400);
+
             });
             modelBuilder.Entity<Animal>(entity =>
             {
                 entity.Property(a => a.IdAnimal).IsRequired();
-                entity.Property(a => a.HabitatId).IsRequired();
                 entity.Property(a => a.NombreComun).HasMaxLength(250);
                 entity.Property(a => a.NombreCientifico).HasMaxLength(250);
                 entity.Property(a => a.Filo).HasMaxLength(250);
@@ -65,15 +63,13 @@ namespace APIFaunaEnriquillo.InfrastructureLayer.Persistence.Data
                 entity.Property(a => a.Genero).HasMaxLength(100);
                 entity.Property(a => a.Especie).HasMaxLength(100);
                 entity.Property(a => a.SubEspecie).HasMaxLength(100);
-                entity.Property(a => a.Observaciones).HasMaxLength(250);
-                entity.Property(a => a.DistribucionGeograficaUrl).HasMaxLength(500);
-                entity.Property(a => a.ImagenUrl).HasMaxLength(500);
+                entity.Property(a => a.Observaciones).HasMaxLength(800);
+
             });
 
             modelBuilder.Entity<Planta>(entity =>
             {
                 entity.Property(p => p.IdPlanta).IsRequired();
-                entity.Property(p => p.HabitatId).IsRequired();
                 entity.Property(p => p.NombreComun).HasMaxLength(250);
                 entity.Property(p => p.NombreCientifico).HasMaxLength(250);
                 entity.Property(p => p.Filo).HasMaxLength(200);
@@ -83,9 +79,8 @@ namespace APIFaunaEnriquillo.InfrastructureLayer.Persistence.Data
                 entity.Property(p => p.Genero).HasMaxLength(200);
                 entity.Property(p => p.Especie).HasMaxLength(200);
                 entity.Property(p => p.SubEspecie).HasMaxLength(200);
-                entity.Property(p => p.Observaciones).HasMaxLength(500);
-                entity.Property(p => p.DistribucionGeograficaUrl).HasMaxLength(500);
-                entity.Property(p => p.ImagenUrl).HasMaxLength(500);
+                entity.Property(p => p.Observaciones).HasMaxLength(800);
+
             });
             #endregion
 
@@ -93,12 +88,14 @@ namespace APIFaunaEnriquillo.InfrastructureLayer.Persistence.Data
             modelBuilder.Entity<Planta>().
                 HasOne(p => p.Habitat).
                 WithMany(p => p.Plantas).
-                HasForeignKey(p => p.HabitatId);
+                HasForeignKey(p => p.HabitatId).
+                OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Animal>().
                 HasOne(a => a.Habitat).
                 WithMany(a => a.Animales).
-                HasForeignKey(a => a.HabitatId);
+                HasForeignKey(a => a.HabitatId).
+                OnDelete(DeleteBehavior.SetNull);
             #endregion
         }
         #endregion
