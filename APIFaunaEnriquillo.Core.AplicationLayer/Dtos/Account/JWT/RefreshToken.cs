@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Jwt
 {
-    internal class RefreshToken
+    public class RefreshToken
     {
         public string UserId { get; set; }
         public string? Token { get; set; }
