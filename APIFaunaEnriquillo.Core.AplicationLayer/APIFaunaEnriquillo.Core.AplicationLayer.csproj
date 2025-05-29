@@ -11,19 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
-    <Folder Include="Dtos\HabitatDto\" />
-    <Folder Include="Dtos\AnimalesDto\" />
-    <Folder Include="Dtos\Account\" />
-    <Folder Include="Dtos\Jwt\" />
-    <Folder Include="Dtos\PlantasDto\" />
-    <Folder Include="Interfaces\Repository\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
-=======
->>>>>>> origin/dev
     <PackageReference Include="CloudinaryDotNet" Version="1.27.5" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.15" />

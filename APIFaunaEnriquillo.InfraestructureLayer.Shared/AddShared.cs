@@ -13,12 +13,14 @@ namespace APIFaunaEnriquillo.InfrastructureLayer.Shared
         {
             #region configuration
             service.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));
+            service.Configure<EmailSetting>(configuration.GetSection("EmailSetting"));
 
 
             #endregion
 
             #region services
             service.AddTransient<ICloudinaryService, CloudinaryService>();
+            service.AddTransient<IEmailService, EmailService>();
 
             #endregion
         }

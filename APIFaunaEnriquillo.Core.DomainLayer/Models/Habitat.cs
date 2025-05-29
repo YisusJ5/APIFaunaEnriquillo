@@ -19,18 +19,10 @@ namespace APIFaunaEnriquillo.Core.DomainLayer.Models
 
         public string? Descripcion { get; set; }
 
-<<<<<<< HEAD
-        public string UbicacionGeograficaUrl { get; set; }
-        public string ImagenUrl { get; set; }
-
-        public ICollection<Planta> Plantas { get; set; }
-        public ICollection<Animal> Animales { get; set; }
-=======
         public string? UbicacionGeograficaUrl { get; set; }
         public string? ImagenUrl { get; set; }
 
         public ICollection<Planta>? Plantas { get; set; }
         public ICollection<Animal>? Animales { get; set; }
->>>>>>> origin/dev
     }
 }
