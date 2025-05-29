@@ -9,6 +9,7 @@ namespace APIFaunaEnriquillo.Core.DomainLayer.Enums
     public enum Roles
     {
         Admin,
-        Editor
+        Editor,
+        Visitante
     }
 }

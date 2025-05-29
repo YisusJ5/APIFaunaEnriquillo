@@ -13,9 +13,14 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Identity.Seeds
     {
         public static async Task SeedAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            await roleManager.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
-            await roleManager.CreateAsync(new IdentityRole(Roles.Editor.ToString()));
+            if (!await roleManager.RoleExistsAsync(Roles.Admin.ToString()))
+                await roleManager.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
 
+            if (!await roleManager.RoleExistsAsync(Roles.Editor.ToString()))
+                await roleManager.CreateAsync(new IdentityRole(Roles.Editor.ToString()));
+
+            if (!await roleManager.RoleExistsAsync(Roles.Visitante.ToString()))
+                await roleManager.CreateAsync(new IdentityRole(Roles.Visitante.ToString()));
         }
 
 

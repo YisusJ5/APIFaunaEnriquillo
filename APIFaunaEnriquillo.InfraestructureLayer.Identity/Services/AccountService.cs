@@ -20,6 +20,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Jwt;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Email;
+using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Register;
+using APIFaunaEnriquillo.Core.DomainLayer.Enums;
 
 namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
 {
@@ -88,7 +90,12 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
             return jwtSecurityToken;
         }
 
-
+        private async Task<string> SendVerificationEmailUrlAsync(User user)
+        {
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            return code;
+        }
         private async Task<string> SendForgotPasswordAsync(User user)
         {
             var code = await userManager.GeneratePasswordResetTokenAsync(user);
@@ -131,7 +138,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
             var rolesList = await userManager.GetRolesAsync(user).ConfigureAwait(false);
 
             response.Roles = rolesList.ToList();
-            response.Verification = user.EmailConfirmed;
+            response.IsVerified = user.EmailConfirmed;
             response.PhoneNumber = user.PhoneNumber;
             response.JwtToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             var refreshToken = GenerateRefreshToken();
@@ -197,7 +204,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
             await emailSender.SendAsync(new EmailRequestDto
             {
                 To = forgotRequest.Email,
-                Body = $@"" ,
+                Body = $@"Colocar la plantilla aqui -yaservi" ,
                 Subject = "Recuperación de contraseña"
 
             });
@@ -245,8 +252,70 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
             }
         }
 
-        
+        public Task<ApiResponse<RegisterResponse>> RegisterOwnerAsync(RegisterRequest registerRequest)
+        {
+            throw new NotImplementedException();
+        }
 
-    
+        public async Task<ApiResponse<RegisterResponse>> RegisterAccountAsync(RegisterRequest registerRequest, Roles roles)
+        {
+            RegisterResponse response = new();
+            var username = await userManager.FindByNameAsync(registerRequest.UserName);
+            if (username != null)
+            {
+                return ApiResponse<RegisterResponse>.ErrorResponse($"this user {registerRequest.UserName} is already taken");
+            }
+
+            var userWithEmail = await userManager.FindByEmailAsync(registerRequest.Email);
+            if (userWithEmail != null)
+            {
+                return ApiResponse<RegisterResponse>.ErrorResponse($"this email {registerRequest.Email} is already taken");
+            }
+
+            User user = new()
+            {
+                FirstName = registerRequest.FirstName,
+                LastName = registerRequest.LastName,
+                UserName = registerRequest.UserName,
+                Email = registerRequest.Email,
+                PhoneNumber = registerRequest.PhoneNumber,
+            };
+
+            var result = await userManager.CreateAsync(user, registerRequest.Password);
+            if (result.Succeeded)
+            {
+                response.Email = registerRequest.Email;
+                response.Username = registerRequest.UserName;
+                response.UserId = user.Id;
+
+                await userManager.AddToRoleAsync(user, roles.ToString());
+                var verification = await SendVerificationEmailUrlAsync(user);
+                await emailSender.SendAsync(new EmailRequestDto
+                {
+                    To = registerRequest.Email,
+                    Body = $@"Colocar plantilla aqui -yaservi",
+                    Subject = "Confirm Your Account Registration"
+                });
+            }
+            else
+            {
+                return ApiResponse<RegisterResponse>.ErrorResponse($"An error occurred trying to register the user");
+            }
+            return ApiResponse<RegisterResponse>.SuccessResponse(response);
+        }
+
+        public async Task<ApiResponse<string>> ConfirmAccountAsync(string userId, string token)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return ApiResponse<string>.ErrorResponse($"No account registered with this {userId} user id");
+            }
+            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+
+            var result = await userManager.ConfirmEmailAsync(user, token);
+            return result.Succeeded ? ApiResponse<string>.SuccessResponse($"Your account has been successfully confirmed!")
+                : ApiResponse<string>.ErrorResponse($"An error occurred trying to confirm your account");
+        }
     }
 }

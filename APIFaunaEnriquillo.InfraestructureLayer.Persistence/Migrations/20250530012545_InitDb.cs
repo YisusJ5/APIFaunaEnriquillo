@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitBD : Migration
+    public partial class InitDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
