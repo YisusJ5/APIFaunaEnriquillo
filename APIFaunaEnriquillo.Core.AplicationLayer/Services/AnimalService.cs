@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.AnimalesDto;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.HabitatDto;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.PlantasDto;
-using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository;
+using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repositories;
 using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Service;
 using APIFaunaEnriquillo.Core.AplicationLayer.Pagination;
+using APIFaunaEnriquillo.Core.DomainLayer.Agregate.HabitatAgregate;
 using APIFaunaEnriquillo.Core.DomainLayer.Enums;
-using APIFaunaEnriquillo.Core.DomainLayer.Models;
 using APIFaunaEnriquillo.Core.DomainLayer.Utils;
+using APIFaunaEnriquillo.Core.DomainLayer.Value_object.AnimalObjects;
 using Microsoft.Extensions.Logging;
 using static System.Net.Mime.MediaTypeNames;
 using static APIFaunaEnriquillo.Core.DomainLayer.Utils.Result;
@@ -48,20 +49,20 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             var entityWithNumber = await _repository.GetPageResultAsync(pageNumber, pageSize, cancellationToken);
             var dto = entityWithNumber.Items.Select(x => new AnimalDto(
                  IdAnimal: x.IdAnimal,
-                 NombreComun: x.NombreComun,
-                 NombreCientifico: x.NombreCientifico,
+                 NombreComun: x.NombreComun.Value,
+                 NombreCientifico: x.NombreCientifico.Value,
                  Dieta:x.Dieta,
                  EstadoDeConservacion: x.EstadoDeConservacion,
                  FormaDeReproduccion: x.FormaDeReproduccion,
                  TipoDesarrolloEmbrionario: x.TipoDesarrolloEmbrionario,
                  EstatusBiogeográfico: x.EstatusBiogeográfico,
-                 Filo: x.Filo,
-                 Clase: x.Clase,
-                 Orden: x.Orden,
-                 Familia: x.Familia,
-                 Genero: x.Genero,
-                 Especie: x.Especie,
-                 SubEspecie: x.SubEspecie,
+                 Filo: x.Filo.Value,
+                 Clase: x.Clase.Value,
+                 Orden: x.Orden.Value,
+                 Familia: x.Familia.Value,
+                 Genero: x.Genero.Value,
+                 Especie: x.Especie.Value,
+                 SubEspecie: x.SubEspecie.Value,
                  Observaciones: x.Observaciones,
                  DistribucionGeograficaUrl: x.DistribucionGeograficaUrl,
                  ImagenUrl: x.ImagenUrl,
@@ -108,20 +109,20 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             AnimalDto animalDto = new(
 
                  IdAnimal: animal.IdAnimal,
-                 NombreComun: animal.NombreComun,
-                 NombreCientifico: animal.NombreCientifico,
+                 NombreComun: animal.NombreComun.Value,
+                 NombreCientifico: animal.NombreCientifico.Value,
                  Dieta: animal.Dieta,
                  EstadoDeConservacion: animal.EstadoDeConservacion,
                  FormaDeReproduccion: animal.FormaDeReproduccion,
                  TipoDesarrolloEmbrionario: animal.TipoDesarrolloEmbrionario,
                  EstatusBiogeográfico: animal.EstatusBiogeográfico,
-                 Filo: animal.Filo,
-                 Clase: animal.Clase,
-                 Orden: animal.Orden,
-                 Familia: animal.Familia,
-                 Genero: animal.Genero,
-                 Especie: animal.Especie,
-                 SubEspecie: animal.SubEspecie,
+                 Filo: animal.Filo.Value,
+                 Clase: animal.Clase.Value,
+                 Orden: animal.Orden.Value,
+                 Familia: animal.Familia.Value,
+                 Genero: animal.Genero.Value,
+                 Especie: animal.Especie.Value,
+                 SubEspecie: animal.SubEspecie.Value,
                  Observaciones: animal.Observaciones,
                  IdHabitat: animal.HabitatId,
                  DistribucionGeograficaUrl: animal.DistribucionGeograficaUrl,
@@ -142,7 +143,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 return ResultT<AnimalDto>.Failure(Error.Failure("404", "The register Animal could not be found "));
 
             }
-            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun == EntityInsertDto.NombreComun);
+            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun.Value == EntityInsertDto.NombreComun);
 
             if (existCommonName)
             {
@@ -153,7 +154,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                     );
             }
 
-            var existsScientificName = await _repository.ValidateAsync(h => h.NombreCientifico == EntityInsertDto.NombreCientifico);
+            var existsScientificName = await _repository.ValidateAsync(h => h.NombreCientifico.Value == EntityInsertDto.NombreCientifico);
 
             if (existsScientificName)
             {
@@ -189,20 +190,20 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             Animal animalI = new()
             {
                 IdAnimal = Guid.NewGuid(),
-                NombreComun = EntityInsertDto.NombreComun,
-                NombreCientifico = EntityInsertDto.NombreCientifico,
+                NombreComun = new NombreComunAnimal (EntityInsertDto.NombreComun),
+                NombreCientifico = new NombreCientificoAnimal (EntityInsertDto.NombreCientifico),
                 Dieta = EntityInsertDto.Dieta,
                 EstadoDeConservacion = EntityInsertDto.EstadoDeConservacion,
                 FormaDeReproduccion = EntityInsertDto.FormaDeReproduccion,
                 TipoDesarrolloEmbrionario = EntityInsertDto.TipoDesarrolloEmbrionario,
                 EstatusBiogeográfico = EntityInsertDto.EstatusBiogeográfico,
-                Filo = EntityInsertDto.Filo,
-                Clase = EntityInsertDto.Clase,
-                Orden = EntityInsertDto.Orden,
-                Familia = EntityInsertDto.Familia,
-                Genero = EntityInsertDto.Genero,
-                Especie = EntityInsertDto.Especie,
-                SubEspecie = EntityInsertDto.SubEspecie,
+                Filo = new FiloAnimal (EntityInsertDto.Filo),
+                Clase = new ClaseAnimal (EntityInsertDto.Clase),
+                Orden = new OrdenAnimal (EntityInsertDto.Orden),
+                Familia = new FamiliaAnimal (EntityInsertDto.Familia),
+                Genero = new GeneroAnimal (EntityInsertDto.Genero),
+                Especie = new EspecieAnimal (EntityInsertDto.Especie),
+                SubEspecie = new SubEspecieAnimal (EntityInsertDto.SubEspecie),
                 Observaciones = EntityInsertDto.Observaciones,
                 DistribucionGeograficaUrl = DistribucionGeografica,
                 ImagenUrl = Imagen,
@@ -214,20 +215,20 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             AnimalDto animalDto = new(
                 IdAnimal: animalI.IdAnimal,
-                NombreComun: animalI.NombreComun,
-                NombreCientifico: animalI.NombreCientifico,
+                NombreComun: animalI.NombreComun.Value,
+                NombreCientifico: animalI.NombreCientifico.Value,
                 Dieta: animalI.Dieta,
                 EstadoDeConservacion: animalI.EstadoDeConservacion,
                 FormaDeReproduccion: animalI.FormaDeReproduccion,
                 TipoDesarrolloEmbrionario: animalI.TipoDesarrolloEmbrionario,
                 EstatusBiogeográfico: animalI.EstatusBiogeográfico,
-                Filo: animalI.Filo,
-                Clase: animalI.Clase,
-                Orden: animalI.Orden,
-                Familia: animalI.Familia,
-                Genero: animalI.Genero,
-                Especie: animalI.Especie,
-                SubEspecie: animalI.SubEspecie,
+                Filo: animalI.Filo.Value,
+                Clase: animalI.Clase.Value,
+                Orden: animalI.Orden.Value,
+                Familia: animalI.Familia.Value,
+                Genero: animalI.Genero.Value,
+                Especie: animalI.Especie.Value,
+                SubEspecie: animalI.SubEspecie.Value,
                 Observaciones: animalI.Observaciones,
                 IdHabitat: animalI.HabitatId,
                 DistribucionGeograficaUrl: DistribucionGeografica,
@@ -249,7 +250,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 return ResultT<AnimalDto>.Failure(Error.Failure("404", $"{Id} is already registered"));
 
             }
-            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun == Entity.NombreComun);
+            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun.Value == Entity.NombreComun);
 
             if (existCommonName)
             {
@@ -259,7 +260,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
                     );
             }
-            var scientificName = await _repository.ValidateAsync(h => h.NombreCientifico == Entity.NombreCientifico);
+            var scientificName = await _repository.ValidateAsync(h => h.NombreCientifico.Value == Entity.NombreCientifico);
 
             if (scientificName)
             {
@@ -286,20 +287,20 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             }
 
 
-            animal.NombreComun = Entity.NombreComun;
-            animal.NombreCientifico = Entity.NombreCientifico;
+            animal.NombreComun = new NombreComunAnimal(Entity.NombreComun);
+            animal.NombreCientifico = new NombreCientificoAnimal (Entity.NombreCientifico);
             animal.Dieta = Entity.Dieta;
             animal.EstadoDeConservacion = Entity.EstadoDeConservacion;
             animal.FormaDeReproduccion = Entity.FormaDeReproduccion;
             animal.TipoDesarrolloEmbrionario = Entity.TipoDesarrolloEmbrionario;
             animal.EstatusBiogeográfico = Entity.EstatusBiogeográfico;
-            animal.Filo = Entity.Filo;
-            animal.Clase = Entity.Clase;
-            animal.Orden = Entity.Orden;
-            animal.Familia = Entity.Familia;
-            animal.Genero = Entity.Genero;
-            animal.Especie = Entity.Especie;
-            animal.SubEspecie = Entity.SubEspecie;
+            animal.Filo = new FiloAnimal (Entity.Filo);
+            animal.Clase = new ClaseAnimal (Entity.Clase);
+            animal.Orden = new OrdenAnimal (Entity.Orden);
+            animal.Familia = new FamiliaAnimal (Entity.Familia);
+            animal.Genero = new GeneroAnimal (Entity.Genero);
+            animal.Especie = new EspecieAnimal (Entity.Especie);
+            animal.SubEspecie = new SubEspecieAnimal (Entity.SubEspecie);
             animal.Observaciones = Entity.Observaciones;
             animal.DistribucionGeograficaUrl = distribucionGeografica;
             animal.ImagenUrl = imagen;
@@ -312,20 +313,20 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             AnimalDto animalDto = new
                 (
                 IdAnimal: animal.IdAnimal,
-                NombreComun: animal.NombreComun,
-                NombreCientifico: animal.NombreCientifico,
+                NombreComun: animal.NombreComun.Value,
+                NombreCientifico: animal.NombreCientifico.Value,
                 Dieta: animal.Dieta,
                 EstadoDeConservacion: animal.EstadoDeConservacion,
                 FormaDeReproduccion: animal.FormaDeReproduccion,
                 TipoDesarrolloEmbrionario: animal.TipoDesarrolloEmbrionario,
                 EstatusBiogeográfico: animal.EstatusBiogeográfico,
-                Filo: animal.Filo,
-                Clase: animal.Clase,
-                Orden: animal.Orden,
-                Familia: animal.Familia,
-                Genero: animal.Genero,
-                Especie: animal.Especie,
-                SubEspecie: animal.SubEspecie,
+                Filo: animal.Filo.Value,
+                Clase: animal.Clase.Value,
+                Orden: animal.Orden.Value,
+                Familia: animal.Familia.Value,
+                Genero: animal.Genero.Value,
+                Especie: animal.Especie.Value,
+                SubEspecie: animal.SubEspecie.Value,
                 Observaciones: animal.Observaciones,
                 DistribucionGeograficaUrl: animal.DistribucionGeograficaUrl,
                 ImagenUrl: animal.ImagenUrl,
@@ -364,7 +365,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 _logger.LogError("Validation failed: The 'commonName' is requiered but was not provided or is empty ");
                 return ResultT<AnimalDto>.Failure(Error.Failure("400", "The animal name cannot be empty"));
             }
-            var existCommonName = await _repository.ValidateAsync(b => b.NombreComun == commonName);
+            var existCommonName = await _repository.ValidateAsync(b => b.NombreComun.Value == commonName);
 
             if (!existCommonName)
             {
@@ -382,20 +383,20 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             AnimalDto animalDto = new(
 
                 IdAnimal: filterBycommonName.IdAnimal,
-                NombreComun: filterBycommonName.NombreComun,
-                NombreCientifico: filterBycommonName.NombreCientifico,
+                NombreComun: filterBycommonName.NombreComun.Value,
+                NombreCientifico: filterBycommonName.NombreCientifico.Value,
                 Dieta: filterBycommonName.Dieta,
                 EstadoDeConservacion: filterBycommonName.EstadoDeConservacion,
                 FormaDeReproduccion: filterBycommonName.FormaDeReproduccion,
                 TipoDesarrolloEmbrionario: filterBycommonName.TipoDesarrolloEmbrionario,
                 EstatusBiogeográfico: filterBycommonName.EstatusBiogeográfico,
-                Filo: filterBycommonName.Filo,
-                Clase: filterBycommonName.Clase,
-                Orden: filterBycommonName.Orden,
-                Familia: filterBycommonName.Familia,
-                Genero: filterBycommonName.Genero,
-                Especie: filterBycommonName.Especie,
-                SubEspecie: filterBycommonName.SubEspecie,
+                Filo: filterBycommonName.Filo.Value,
+                Clase: filterBycommonName.Clase.Value,
+                Orden: filterBycommonName.Orden.Value,
+                Familia: filterBycommonName.Familia.Value,
+                Genero: filterBycommonName.Genero.Value,
+                Especie: filterBycommonName.Especie.Value,
+                SubEspecie: filterBycommonName.SubEspecie.Value,
                 Observaciones: filterBycommonName.Observaciones,
                 DistribucionGeograficaUrl: filterBycommonName.DistribucionGeograficaUrl,
                 ImagenUrl: filterBycommonName.ImagenUrl,
@@ -418,7 +419,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 _logger.LogError("Validation failed: The 'scientificName' is requiered but was not provided or is empty ");
                 return ResultT<AnimalDto>.Failure(Error.Failure("400", "The animal name cannot be empty"));
             }
-            var existeScientificName = await _repository.ValidateAsync(b => b.NombreCientifico == scientificName);
+            var existeScientificName = await _repository.ValidateAsync(b => b.NombreCientifico.Value == scientificName);
 
             if (!existeScientificName)
             {
@@ -436,20 +437,20 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             AnimalDto animalDto = new(
 
                 IdAnimal: filterByScientificName.IdAnimal,
-                NombreComun: filterByScientificName.NombreComun,
-                NombreCientifico: filterByScientificName.NombreCientifico,
+                NombreComun: filterByScientificName.NombreComun.Value,
+                NombreCientifico: filterByScientificName.NombreCientifico.Value,
                 Dieta: filterByScientificName.Dieta,
                 EstadoDeConservacion: filterByScientificName.EstadoDeConservacion,
                 FormaDeReproduccion: filterByScientificName.FormaDeReproduccion,
                 TipoDesarrolloEmbrionario: filterByScientificName.TipoDesarrolloEmbrionario,
                 EstatusBiogeográfico: filterByScientificName.EstatusBiogeográfico,
-                Filo: filterByScientificName.Filo,
-                Clase: filterByScientificName.Clase,
-                Orden: filterByScientificName.Orden,
-                Familia: filterByScientificName.Familia,
-                Genero: filterByScientificName.Genero,
-                Especie: filterByScientificName.Especie,
-                SubEspecie: filterByScientificName.SubEspecie,
+                Filo: filterByScientificName.Filo.Value,
+                Clase: filterByScientificName.Clase.Value,
+                Orden: filterByScientificName.Orden.Value,
+                Familia: filterByScientificName.Familia.Value,
+                Genero: filterByScientificName.Genero.Value,
+                Especie: filterByScientificName.Especie.Value,
+                SubEspecie: filterByScientificName.SubEspecie.Value,
                 Observaciones: filterByScientificName.Observaciones,
                 DistribucionGeograficaUrl: filterByScientificName.DistribucionGeograficaUrl,
                 ImagenUrl: filterByScientificName.ImagenUrl,
@@ -463,6 +464,5 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             return ResultT<AnimalDto>.Success(animalDto);
         }
 
-       
     }
 }

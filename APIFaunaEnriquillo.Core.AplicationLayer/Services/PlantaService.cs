@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.AnimalesDto;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.HabitatDto;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.PlantasDto;
-using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository;
+using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repositories;
 using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Service;
 using APIFaunaEnriquillo.Core.AplicationLayer.Pagination;
+using APIFaunaEnriquillo.Core.DomainLayer.Agregate.HabitatAgregate;
 using APIFaunaEnriquillo.Core.DomainLayer.Enums;
-using APIFaunaEnriquillo.Core.DomainLayer.Models;
 using APIFaunaEnriquillo.Core.DomainLayer.Utils;
+using APIFaunaEnriquillo.Core.DomainLayer.Value_object.PlantObjects;
 using Microsoft.Extensions.Logging;
 using static APIFaunaEnriquillo.Core.DomainLayer.Utils.Result;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -48,17 +49,17 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             var entityWithNumber = await _repository.GetPageResultAsync(pageNumber, pageSize, cancellationToken);
             var dto = entityWithNumber.Items.Select(x => new PlantaDto(
                    IdPlanta: x.IdPlanta,
-                   NombreComun: x.NombreComun,
-                   NombreCientifico: x.NombreCientifico,
+                   NombreComun: x.NombreComun.Value,
+                   NombreCientifico: x.NombreCientifico.Value,
                    EstadoDeConservacion: x.EstadoDeConservacion,
                    EstatusBiogeografico: x.EstatusBiogeografico,
-                   Filo: x.Filo,
-                   Clase: x.Clase,
-                   Orden: x.Orden,
-                   Familia: x.Familia,
-                   Genero: x.Genero,
-                   Especie: x.Especie,
-                   SubEspecie: x.SubEspecie,
+                   Filo: x.Filo.Value,
+                   Clase: x.Clase.Value,
+                   Orden: x.Orden.Value,
+                   Familia: x.Familia.Value,
+                   Genero: x.Genero.Value,
+                   Especie: x.Especie.Value,
+                   SubEspecie: x.SubEspecie.Value,
                    Observaciones: x.Observaciones,
                    DistribucionGeograficaUrl: x.DistribucionGeograficaUrl,
                    ImagenUrl: x.ImagenUrl,
@@ -102,17 +103,17 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             PlantaDto plantaDto = new(
 
                    IdPlanta: planta.IdPlanta,
-                   NombreComun: planta.NombreComun,
-                   NombreCientifico: planta.NombreCientifico,
+                   NombreComun: planta.NombreComun.Value,
+                   NombreCientifico: planta.NombreCientifico.Value,
                    EstadoDeConservacion: planta.EstadoDeConservacion,
                    EstatusBiogeografico: planta.EstatusBiogeografico,
-                   Filo: planta.Filo,
-                   Clase: planta.Clase,
-                   Orden: planta.Orden,
-                   Familia: planta.Familia,
-                   Genero: planta.Genero,
-                   Especie: planta.Especie,
-                   SubEspecie: planta.SubEspecie,
+                   Filo: planta.Filo.Value,
+                   Clase: planta.Clase.Value,
+                   Orden: planta.Orden.Value,
+                   Familia: planta.Familia.Value,
+                   Genero: planta.Genero.Value,
+                   Especie: planta.Especie.Value,
+                   SubEspecie: planta.SubEspecie.Value,
                    Observaciones: planta.Observaciones,
                    DistribucionGeograficaUrl: planta.DistribucionGeograficaUrl,
                    ImagenUrl: planta.ImagenUrl,
@@ -132,7 +133,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 return ResultT<PlantaDto>.Failure(Error.Failure("404", "The register Planta could not be found "));
 
             }
-            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun == EntityInsertDto.NombreComun);
+            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun.Value == EntityInsertDto.NombreComun);
 
             if (existCommonName)
             {
@@ -143,7 +144,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                     );
             }
 
-            var existsScientificName = await _repository.ValidateAsync(h => h.NombreCientifico == EntityInsertDto.NombreCientifico);
+            var existsScientificName = await _repository.ValidateAsync(h => h.NombreCientifico.Value == EntityInsertDto.NombreCientifico);
 
             if (existsScientificName)
             {
@@ -178,17 +179,17 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             Planta PlantaI = new()
             {
-                NombreComun = EntityInsertDto.NombreComun,
-                NombreCientifico = EntityInsertDto.NombreCientifico,
+                NombreComun = new NombreComunPlant (EntityInsertDto.NombreComun),
+                NombreCientifico = new NombreCientificoPlant(EntityInsertDto.NombreCientifico),
                 EstadoDeConservacion = EntityInsertDto.EstadoDeConservacion,
                 EstatusBiogeografico = EntityInsertDto.EstatusBiogeografico,
-                Filo = EntityInsertDto.Filo,
-                Clase = EntityInsertDto.Clase,
-                Orden = EntityInsertDto.Orden,
-                Familia = EntityInsertDto.Familia,
-                Genero = EntityInsertDto.Genero,
-                Especie = EntityInsertDto.Especie,
-                SubEspecie = EntityInsertDto.SubEspecie,
+                Filo = new FiloPlant(EntityInsertDto.Filo),
+                Clase = new ClasePlant(EntityInsertDto.Clase),
+                Orden = new OrdenPlant(EntityInsertDto.Orden),
+                Familia = new FamiliaPlant(EntityInsertDto.Familia),
+                Genero = new GeneroPlant(EntityInsertDto.Genero),
+                Especie = new EspeciePlant(EntityInsertDto.Especie),
+                SubEspecie = new SubEspeciePlant(EntityInsertDto.SubEspecie),
                 Observaciones = EntityInsertDto.Observaciones,
                 DistribucionGeograficaUrl = DistribucionGeografica,
                 ImagenUrl = Imagen,
@@ -201,17 +202,17 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             PlantaDto plantaDto = new(
                    IdPlanta: PlantaI.IdPlanta,
-                   NombreComun: PlantaI.NombreComun,
-                   NombreCientifico: PlantaI.NombreCientifico,
+                   NombreComun: PlantaI.NombreComun.Value,
+                   NombreCientifico: PlantaI.NombreCientifico.Value,
                    EstadoDeConservacion: PlantaI.EstadoDeConservacion,
                    EstatusBiogeografico: PlantaI.EstatusBiogeografico,
-                   Filo: PlantaI.Filo,
-                   Clase: PlantaI.Clase,
-                   Orden: PlantaI.Orden,
-                   Familia: PlantaI.Familia,
-                   Genero: PlantaI.Genero,
-                   Especie: PlantaI.Especie,
-                   SubEspecie: PlantaI.SubEspecie,
+                   Filo: PlantaI.Filo.Value,
+                   Clase: PlantaI.Clase.Value,
+                   Orden: PlantaI.Orden.Value,
+                   Familia: PlantaI.Familia.Value,
+                   Genero: PlantaI.Genero.Value,
+                   Especie: PlantaI.Especie.Value,
+                   SubEspecie: PlantaI.SubEspecie.Value,
                    Observaciones: PlantaI.Observaciones,
                    DistribucionGeograficaUrl: DistribucionGeografica,
                    ImagenUrl: Imagen,
@@ -235,7 +236,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 return ResultT<PlantaDto>.Failure(Error.Failure("404", $"{Id} is already registered"));
 
             }
-            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun == Entity.NombreComun);
+            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun.Value == Entity.NombreComun);
 
             if (existCommonName)
             {
@@ -245,7 +246,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
                     );
             }
-            var scientificName = await _repository.ValidateAsync(h => h.NombreCientifico == Entity.NombreCientifico);
+            var scientificName = await _repository.ValidateAsync(h => h.NombreCientifico.Value == Entity.NombreCientifico);
 
             if (scientificName)
             {
@@ -271,17 +272,17 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             }
 
 
-            planta.NombreComun = Entity.NombreComun;
-            planta.NombreCientifico = Entity.NombreCientifico;
+            planta.NombreComun = new NombreComunPlant(Entity.NombreComun);
+            planta.NombreCientifico = new NombreCientificoPlant(Entity.NombreCientifico);
             planta.EstadoDeConservacion = Entity.EstadoDeConservacion;
             planta.EstatusBiogeografico = Entity.EstatusBiogeografico;
-            planta.Filo = Entity.Filo;
-            planta.Clase = Entity.Clase;
-            planta.Orden = Entity.Orden;
-            planta.Genero = Entity.Genero;
-            planta.Familia = Entity.Familia;
-            planta.Especie = Entity.Especie;
-            planta.SubEspecie = Entity.SubEspecie;
+            planta.Filo = new FiloPlant(Entity.Filo);
+            planta.Clase = new ClasePlant (Entity.Clase);
+            planta.Orden = new OrdenPlant(Entity.Orden);
+            planta.Genero = new GeneroPlant(Entity.Genero);
+            planta.Familia = new FamiliaPlant(Entity.Familia);
+            planta.Especie = new EspeciePlant(Entity.Especie);
+            planta.SubEspecie = new SubEspeciePlant(Entity.SubEspecie);
             planta.Observaciones = Entity.Observaciones;
             planta.DistribucionGeograficaUrl = distribucionGeografica;
             planta.ImagenUrl = imagen;
@@ -289,17 +290,17 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             PlantaDto plantaDto = new(
               IdPlanta: planta.IdPlanta,
-              NombreComun: planta.NombreComun,
-              NombreCientifico: planta.NombreCientifico,
+              NombreComun: planta.NombreComun.Value,
+              NombreCientifico: planta.NombreCientifico.Value,
               EstadoDeConservacion:  planta.EstadoDeConservacion,
               EstatusBiogeografico:  planta.EstatusBiogeografico,
-              Filo: planta.Filo,
-              Clase: planta.Clase,
-              Orden: planta.Orden,
-              Genero: planta.Genero,
-              Familia: planta.Familia,
-              Especie: planta.Especie,
-              SubEspecie: planta.SubEspecie,
+              Filo: planta.Filo.Value,
+              Clase: planta.Clase.Value,
+              Orden: planta.Orden.Value,
+              Genero: planta.Genero.Value,
+              Familia: planta.Familia.Value,
+              Especie: planta.Especie.Value,
+              SubEspecie: planta.SubEspecie.Value,
               Observaciones: planta.Observaciones,
               DistribucionGeograficaUrl:  planta.DistribucionGeograficaUrl,
               IdHabitat: planta.HabitatId,
@@ -337,7 +338,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 _logger.LogError("Validation failed: The 'commonName' is requiered but was not provided or is empty ");
                 return ResultT<PlantaDto>.Failure(Error.Failure("400", "The plant name cannot be empty"));
             }
-            var existCommonName = await _repository.ValidateAsync(b => b.NombreComun == commonName);
+            var existCommonName = await _repository.ValidateAsync(b => b.NombreComun.Value == commonName);
 
             if (!existCommonName)
             {
@@ -355,17 +356,17 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             PlantaDto plantaDto = new(
              IdPlanta: filterBycommonName.IdPlanta,
-             NombreComun: filterBycommonName.NombreComun,
-             NombreCientifico: filterBycommonName.NombreCientifico,
+             NombreComun: filterBycommonName.NombreComun.Value,
+             NombreCientifico: filterBycommonName.NombreCientifico.Value,
              EstadoDeConservacion: filterBycommonName.EstadoDeConservacion,
              EstatusBiogeografico: filterBycommonName.EstatusBiogeografico,
-            Filo: filterBycommonName.Filo,
-            Clase: filterBycommonName.Clase,
-             Orden: filterBycommonName.Orden,
-             Genero: filterBycommonName.Genero,
-             Familia: filterBycommonName.Familia,
-             Especie: filterBycommonName.Especie,
-             SubEspecie: filterBycommonName.SubEspecie,
+            Filo: filterBycommonName.Filo.Value,
+            Clase: filterBycommonName.Clase.Value,
+             Orden: filterBycommonName.Orden.Value,
+             Genero: filterBycommonName.Genero.Value,
+             Familia: filterBycommonName.Familia.Value,
+             Especie: filterBycommonName.Especie.Value,
+             SubEspecie: filterBycommonName.SubEspecie.Value,
              Observaciones: filterBycommonName.Observaciones,
              DistribucionGeograficaUrl: filterBycommonName.DistribucionGeograficaUrl,
              IdHabitat: filterBycommonName.HabitatId,
@@ -387,7 +388,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 _logger.LogError("Validation failed: The 'scientificName' is requiered but was not provided or is empty ");
                 return ResultT<PlantaDto>.Failure(Error.Failure("400", "The plant name cannot be empty"));
             }
-            var existscientificName = await _repository.ValidateAsync(b => b.NombreCientifico == scientificName);
+            var existscientificName = await _repository.ValidateAsync(b => b.NombreCientifico.Value == scientificName);
 
             if (!existscientificName)
             {
@@ -405,17 +406,17 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             PlantaDto plantaDto = new(
              IdPlanta: filterByscientificName.IdPlanta,
-             NombreComun: filterByscientificName.NombreComun,
-             NombreCientifico: filterByscientificName.NombreCientifico,
+             NombreComun: filterByscientificName.NombreComun.Value,
+             NombreCientifico: filterByscientificName.NombreCientifico.Value,
              EstadoDeConservacion: filterByscientificName.EstadoDeConservacion,
              EstatusBiogeografico: filterByscientificName.EstatusBiogeografico,
-            Filo: filterByscientificName.Filo,
-            Clase: filterByscientificName.Clase,
-             Orden: filterByscientificName.Orden,
-             Genero: filterByscientificName.Genero,
-             Familia: filterByscientificName.Familia,
-             Especie: filterByscientificName.Especie,
-             SubEspecie: filterByscientificName.SubEspecie,
+            Filo: filterByscientificName.Filo.Value,
+            Clase: filterByscientificName.Clase.Value,
+             Orden: filterByscientificName.Orden.Value,
+             Genero: filterByscientificName.Genero.Value,
+             Familia: filterByscientificName.Familia.Value,
+             Especie: filterByscientificName.Especie.Value,
+             SubEspecie: filterByscientificName.SubEspecie.Value,
              Observaciones: filterByscientificName.Observaciones,
              DistribucionGeograficaUrl: filterByscientificName.DistribucionGeograficaUrl,
              IdHabitat: filterByscientificName.HabitatId,

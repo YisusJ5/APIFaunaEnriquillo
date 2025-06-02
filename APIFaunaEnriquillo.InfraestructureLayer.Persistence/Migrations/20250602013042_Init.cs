@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDb : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +16,8 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                 columns: table => new
                 {
                     IdHabitat = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    NombreComun = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    NombreCientifico = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    NombreComunHabitat = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    NombreCientificoHabitat = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Clima = table.Column<int>(type: "int", nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     UbicacionGeograficaUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -35,20 +35,20 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                 columns: table => new
                 {
                     IdAnimal = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    NombreComun = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    NombreCientifico = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    NombreComunAnimal = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    NombreCientificoAnimal = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Dieta = table.Column<int>(type: "int", nullable: false),
                     EstadoDeConservacion = table.Column<int>(type: "int", nullable: false),
                     FormaDeReproduccion = table.Column<int>(type: "int", nullable: false),
                     TipoDesarrolloEmbrionario = table.Column<int>(type: "int", nullable: false),
                     EstatusBiogeográfico = table.Column<int>(type: "int", nullable: false),
-                    Filo = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    Clase = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Orden = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Familia = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Genero = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Especie = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    SubEspecie = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    FiloAnimal = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    ClaseAnimal = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    OrdenAnimal = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    FamiliaAnimal = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    GeneroAnimal = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    EspecieAnimal = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    SubEspecieAnimal = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Observaciones = table.Column<string>(type: "nvarchar(800)", maxLength: 800, nullable: true),
                     DistribucionGeograficaUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagenUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -72,17 +72,17 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
                 columns: table => new
                 {
                     IdPlanta = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    NombreComun = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    NombreCientifico = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    NombreComunPlanta = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    NombreCientificoPlanta = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     EstadoDeConservacion = table.Column<int>(type: "int", nullable: false),
                     EstatusBiogeografico = table.Column<int>(type: "int", nullable: false),
-                    Filo = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Clase = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Orden = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Familia = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Genero = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Especie = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    SubEspecie = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    FiloPlanta = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ClasePlanta = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    OrdenPlanta = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    FamiliaPlanta = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    GeneroPlanta = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    EspeciePlanta = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    SubEspeciePlanta = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Observaciones = table.Column<string>(type: "nvarchar(800)", maxLength: 800, nullable: true),
                     DistribucionGeograficaUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagenUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),

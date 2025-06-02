@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIFaunaEnriquillo.InfraestructureLayer.Identity.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20250530012450_IdentityMigration")]
+    [Migration("20250602012543_IdentityMigration")]
     partial class IdentityMigration
     {
         /// <inheritdoc />

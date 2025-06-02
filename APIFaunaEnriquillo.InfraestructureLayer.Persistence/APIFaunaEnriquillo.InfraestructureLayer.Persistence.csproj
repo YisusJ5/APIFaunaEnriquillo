@@ -24,4 +24,8 @@
     <ProjectReference Include="..\APIFaunaEnriquillo.Core.DomainLayer\APIFaunaEnriquillo.Core.DomainLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Adapters\" />
+  </ItemGroup>
+
 </Project>

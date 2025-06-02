@@ -1,4 +1,4 @@
-﻿using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository;
+﻿using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repositories;
 using APIFaunaEnriquillo.Core.AplicationLayer.Pagination;
 using APIFaunaEnriquillo.InfrastructureLayer.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
@@ -52,7 +52,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository
         public async Task UpdateAsync(T entity, CancellationToken cancellationToken)
         {
              _dbContext.Attach(entity);
-            _dbContext.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified; 
+            _dbContext.Entry(entity).State = EntityState.Modified; 
             await SaveChangesAsync(cancellationToken);
         }
 

@@ -1,12 +1,12 @@
-﻿using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository;
-using APIFaunaEnriquillo.Core.DomainLayer.Models;
-using APIFaunaEnriquillo.InfrastructureLayer.Persistence.Data;
+﻿using APIFaunaEnriquillo.InfrastructureLayer.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using APIFaunaEnriquillo.Core.DomainLayer.Agregate.HabitatAgregate;
+using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repositories;
 
 namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository
 {
@@ -16,19 +16,19 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository
         {
         }
 
-        public async Task<Animal> FilterByCommonNameAsync(string commonName, CancellationToken cancellationToken)
+        public async Task<Animal?> FilterByCommonNameAsync(string commonName, CancellationToken cancellationToken)
         {
             return await _dbContext.Set<Animal>().
                 AsTracking().
-                Where(animal => animal.NombreComun.ToLower().Contains(commonName.ToLower())).
+                Where(animal => animal.NombreComun.Value.ToLower().Contains(commonName.ToLower())).
                 FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<Animal> FilterByScientificNameAsync(string ScientificName, CancellationToken cancellationToken)
+        public async Task<Animal?> FilterByScientificNameAsync(string ScientificName, CancellationToken cancellationToken)
         {
             return await _dbContext.Set<Animal>().
                  AsTracking().
-                 Where(animal => animal.NombreCientifico.ToLower().Contains(ScientificName.ToLower())).
+                 Where(animal => animal.NombreCientifico.Value.ToLower().Contains(ScientificName.ToLower())).
                  FirstOrDefaultAsync(cancellationToken);
         }
     }

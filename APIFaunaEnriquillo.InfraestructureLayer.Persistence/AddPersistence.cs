@@ -1,4 +1,4 @@
-﻿using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository;
+﻿using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repositories;
 using APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository;
 using APIFaunaEnriquillo.InfrastructureLayer.Persistence.Data;
 using Microsoft.EntityFrameworkCore;

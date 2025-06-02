@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace APIFaunaEnriquillo.Core.AplicationLayer.Dtos.HabitatDto
 {
     public sealed record HabitatInsertDto(
-         string? NombreComun,
-         string? NombreCientifico,
+         string NombreComun,
+         string NombreCientifico,
          Clima Clima,
          string? Descripcion,
          IFormFile? UbicacionGeografica,

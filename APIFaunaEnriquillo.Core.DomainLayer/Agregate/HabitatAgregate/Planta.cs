@@ -5,23 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using APIFaunaEnriquillo.Core.DomainLayer.Common;
 using APIFaunaEnriquillo.Core.DomainLayer.Enums;
+using APIFaunaEnriquillo.Core.DomainLayer.Value_object.PlantObjects;
 
-namespace APIFaunaEnriquillo.Core.DomainLayer.Models
+namespace APIFaunaEnriquillo.Core.DomainLayer.Agregate.HabitatAgregate
 {
     public class Planta : CreationDate
     {
         public Guid? IdPlanta { get; set; }
-        public string? NombreComun { get; set; }
-        public string? NombreCientifico { get; set; }
+        public NombreComunPlant NombreComun { get; set; }
+        public NombreCientificoPlant NombreCientifico { get; set; }
         public EstadoDeConservacion EstadoDeConservacion { get; set; }
         public EstatusBiogeograficoPlantas EstatusBiogeografico { get; set; }
-        public string? Filo { get; set; }
-        public string? Clase { get; set; }
-        public string? Orden { get; set; }
-        public string? Familia { get; set; }
-        public string? Genero { get; set; }
-        public string? Especie { get; set; }
-        public string? SubEspecie { get; set; }
+        public FiloPlant Filo { get; set; }
+        public ClasePlant Clase { get; set; }
+        public OrdenPlant Orden { get; set; }
+        public FamiliaPlant Familia { get; set; }
+        public GeneroPlant Genero { get; set; }
+        public EspeciePlant Especie { get; set; }
+        public SubEspeciePlant SubEspecie { get; set; }
         public string? Observaciones { get; set; }
         public string? DistribucionGeograficaUrl { get; set; }
         public string? ImagenUrl { get; set; }

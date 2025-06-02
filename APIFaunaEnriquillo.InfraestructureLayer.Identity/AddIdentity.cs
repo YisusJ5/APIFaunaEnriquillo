@@ -34,6 +34,10 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Identity
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddScoped<IPasswordHasher<User>, Argon<User>>();
+
+
+
             #endregion
             #region JWT
             services.Configure<JWTSetting>(configuration.GetSection("JWTSettings"));
@@ -86,6 +90,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Identity
 
             });
             #endregion
+
         }
 
     }

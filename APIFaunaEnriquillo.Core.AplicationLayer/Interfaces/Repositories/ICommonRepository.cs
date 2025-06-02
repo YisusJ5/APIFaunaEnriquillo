@@ -1,5 +1,4 @@
 ﻿using APIFaunaEnriquillo.Core.AplicationLayer.Pagination;
-using APIFaunaEnriquillo.Core.DomainLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository
+namespace APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repositories
 {
     public interface ICommonRepository<TEntity> where TEntity : class
     {

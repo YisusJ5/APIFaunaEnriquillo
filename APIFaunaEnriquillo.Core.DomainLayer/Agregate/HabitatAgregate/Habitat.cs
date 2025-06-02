@@ -1,19 +1,20 @@
 ﻿using APIFaunaEnriquillo.Core.DomainLayer.Common;
 using APIFaunaEnriquillo.Core.DomainLayer.Enums;
+using APIFaunaEnriquillo.Core.DomainLayer.Value_object.HabitatObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIFaunaEnriquillo.Core.DomainLayer.Models
+namespace APIFaunaEnriquillo.Core.DomainLayer.Agregate.HabitatAgregate
 {
-    public class Habitat: CreationDate
+    public class Habitat: CreationDate, IdAgregateRoot
     {
         public Guid? IdHabitat { get; set; }
 
-        public string? NombreComun { get; set; }
-        public string? NombreCientifico { get; set; }
+        public NombreComunHabitat NombreComun { get; set; }
+        public NombreCientificoHabitat NombreCientifico { get; set; }
 
         public Clima Clima { get; set; }
 

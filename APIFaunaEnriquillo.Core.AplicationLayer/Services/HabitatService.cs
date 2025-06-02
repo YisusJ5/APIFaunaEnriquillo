@@ -6,13 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.AnimalesDto;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.HabitatDto;
-using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.PlantasDto;
-using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repository;
+using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repositories;
 using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Service;
 using APIFaunaEnriquillo.Core.AplicationLayer.Pagination;
-using APIFaunaEnriquillo.Core.DomainLayer.Enums;
-using APIFaunaEnriquillo.Core.DomainLayer.Models;
+using APIFaunaEnriquillo.Core.DomainLayer.Agregate.HabitatAgregate;
 using APIFaunaEnriquillo.Core.DomainLayer.Utils;
+using APIFaunaEnriquillo.Core.DomainLayer.Value_object.HabitatObjects;
 using CloudinaryDotNet.Core;
 using Microsoft.Extensions.Logging;
 using static System.Net.Mime.MediaTypeNames;
@@ -47,8 +46,8 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             var entityWithNumber = await _repository.GetPageResultAsync(pageNumber, pageSize, cancellationToken);
             var dto = entityWithNumber.Items.Select(x => new HabitatDto(
                  IdHabitat: x.IdHabitat,
-                 NombreComun: x.NombreComun,
-                 NombreCientifico: x.NombreCientifico,
+                 NombreComun: x.NombreComun.Value,
+                 NombreCientifico: x.NombreCientifico.Value,
                  Clima: x.Clima,
                  Descripcion: x.Descripcion,
                  UbicacionGeograficaUrl: x.UbicacionGeograficaUrl,
@@ -97,8 +96,8 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             HabitatDto habitatDto = new(
 
                    IdHabitat: habitat.IdHabitat,
-                   NombreComun: habitat.NombreComun,
-                   NombreCientifico: habitat.NombreCientifico,
+                   NombreComun: habitat.NombreComun.Value,
+                   NombreCientifico: habitat.NombreCientifico.Value,
                    Clima: habitat.Clima,
                    Descripcion: habitat.Descripcion,
                    UbicacionGeograficaUrl: habitat.UbicacionGeograficaUrl,
@@ -119,7 +118,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 return ResultT<HabitatDto>.Failure(Error.Failure("404", "The register habitat could not be found "));
 
             }
-            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun == EntityInsertDto.NombreComun);
+            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun.Value == EntityInsertDto.NombreComun);
 
             if (existCommonName)
             {
@@ -130,7 +129,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                     );
             }
 
-            var existsScientificName = await _repository.ValidateAsync(h => h.NombreCientifico == EntityInsertDto.NombreCientifico);
+            var existsScientificName = await _repository.ValidateAsync(h => h.NombreCientifico.Value == EntityInsertDto.NombreCientifico);
 
             if (existsScientificName)
             {
@@ -165,8 +164,8 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             Habitat habitatI = new()
             {
                 IdHabitat = Guid.NewGuid(),
-                NombreComun = EntityInsertDto.NombreComun,
-                NombreCientifico = EntityInsertDto.NombreCientifico,
+                NombreComun = new NombreComunHabitat (EntityInsertDto.NombreComun),
+                NombreCientifico = new NombreCientificoHabitat(EntityInsertDto.NombreCientifico),
                 Clima = EntityInsertDto.Clima,
                 Descripcion = EntityInsertDto.Descripcion,
                 UbicacionGeograficaUrl = UbicacionGeografica,
@@ -177,8 +176,8 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             HabitatDto habitatDto = new(
                 IdHabitat: habitatI.IdHabitat,
-                NombreComun: habitatI.NombreComun,
-                NombreCientifico: habitatI.NombreCientifico,
+                NombreComun: habitatI.NombreComun.Value,
+                NombreCientifico: habitatI.NombreCientifico.Value,
                 Clima: habitatI.Clima,
                 Descripcion: habitatI.Descripcion,
                 UbicacionGeograficaUrl: UbicacionGeografica,
@@ -203,7 +202,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 return ResultT<HabitatDto>.Failure(Error.Failure("404", $"{Id} is already registered"));
 
             }
-            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun == Entity.NombreComun);
+            var existCommonName = await _repository.ValidateAsync(h => h.NombreComun.Value == Entity.NombreComun);
 
             if (existCommonName)
             {
@@ -213,7 +212,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
                     );
             }
-            var scientificName = await _repository.ValidateAsync(h => h.NombreCientifico == Entity.NombreCientifico);
+            var scientificName = await _repository.ValidateAsync(h => h.NombreCientifico.Value == Entity.NombreCientifico);
 
             if (scientificName)
             {
@@ -240,8 +239,8 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             }
 
 
-            habitat.NombreComun = Entity.NombreComun;
-            habitat.NombreCientifico = Entity.NombreCientifico;
+            habitat.NombreComun = new NombreComunHabitat(Entity.NombreComun);
+            habitat.NombreCientifico = new NombreCientificoHabitat(Entity.NombreCientifico);
             habitat.Clima = Entity.Clima;
             habitat.Descripcion = Entity.Descripcion;
             habitat.UbicacionGeograficaUrl = ubicacionGeografica;
@@ -253,8 +252,8 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             HabitatDto habitatDto = new
                 (
                 IdHabitat: habitat.IdHabitat,
-                NombreComun: habitat.NombreComun,
-                NombreCientifico: habitat.NombreCientifico,
+                NombreComun: habitat.NombreComun.Value,
+                NombreCientifico: habitat.NombreCientifico.Value,
                 Clima: habitat.Clima,
                 Descripcion: habitat.Descripcion,
                 UbicacionGeograficaUrl: ubicacionGeografica,
@@ -293,7 +292,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 _logger.LogError("Validation failed: The 'commonNameHabitat' is requiered but was not provided or is empty ");
                 return ResultT<HabitatDto>.Failure(Error.Failure("400", "The Habitat name cannot be empty"));
             }
-            var existCommonName = await _repository.ValidateAsync(b => b.NombreComun == commonName);
+            var existCommonName = await _repository.ValidateAsync(b => b.NombreComun.Value == commonName);
 
             if (!existCommonName)
             {
@@ -310,8 +309,8 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             HabitatDto habitatDto = new(
                 IdHabitat: filterBycommonName.IdHabitat,
-                NombreComun: filterBycommonName.NombreComun,
-                NombreCientifico: filterBycommonName.NombreCientifico,
+                NombreComun: filterBycommonName.NombreComun.Value,
+                NombreCientifico: filterBycommonName.NombreCientifico.Value,
                 Clima: filterBycommonName.Clima,
                 Descripcion: filterBycommonName.Descripcion,
                 UbicacionGeograficaUrl: filterBycommonName.UbicacionGeograficaUrl,
@@ -333,7 +332,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 _logger.LogError("Validation failed: The 'scientificName' is requiered but was not provided or is empty ");
                 return ResultT<HabitatDto>.Failure(Error.Failure("400", "The Habitat name cannot be empty"));
             }
-            var ExistscientificNameHabitat = await _repository.ValidateAsync(b => b.NombreCientifico == scientificName);
+            var ExistscientificNameHabitat = await _repository.ValidateAsync(b => b.NombreCientifico.Value == scientificName);
 
             if (!ExistscientificNameHabitat)
             {
@@ -351,8 +350,8 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             HabitatDto habitatDto = new(
                IdHabitat: filterByscientificName.IdHabitat,
-               NombreComun: filterByscientificName.NombreComun,
-               NombreCientifico: filterByscientificName.NombreCientifico,
+               NombreComun: filterByscientificName.NombreComun.Value,
+               NombreCientifico: filterByscientificName.NombreCientifico.Value,
                Clima: filterByscientificName.Clima,
                Descripcion: filterByscientificName.Descripcion,
                UbicacionGeograficaUrl: filterByscientificName.UbicacionGeograficaUrl,
