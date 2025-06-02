@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="Adapters\" />
+    <Folder Include="Handlers\" />
   </ItemGroup>
 
 </Project>

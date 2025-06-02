@@ -201,11 +201,139 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
             }
 
             var verification = await SendForgotPasswordAsync(account);
+            var resetLink = $"http://localhost:4200/reset-password?email={Uri.EscapeDataString(forgotRequest.Email)}&token={Uri.EscapeDataString(verification)}";
+
             await emailSender.SendAsync(new EmailRequestDto
             {
                 To = forgotRequest.Email,
-                Body = $@"Colocar la plantilla aqui -yaservi" ,
-                Subject = "Recuperación de contraseña"
+                Body = $@"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:o='urn:schemas-microsoft-com:office:office' lang='es'>
+ <head>
+  <meta charset='UTF-8'>
+  <meta content='width=device-width, initial-scale=1' name='viewport'>
+  <meta name='x-apple-disable-message-reformatting'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta content='telephone=no' name='format-detection'>
+  <title>Restaurar Contraseña</title>
+ </head>
+ <body class='body' style='width:100%;height:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0'>
+  <div dir='ltr' class='es-wrapper-color' lang='es' style='background-color:#F1F6EF'>
+   <table width='100%' cellspacing='0' cellpadding='0' class='es-wrapper' role='none' style='width:100%;height:100%;background-repeat:repeat;background-position:center top;background-color:#F1F6EF'>
+     <tr>
+      <td valign='top' style='padding:0;Margin:0'>
+       <table cellpadding='0' cellspacing='0' align='center' class='es-content' role='none' style='width:100%;table-layout:fixed !important'></table>
+       <table cellpadding='0' cellspacing='0' align='center' class='es-content' role='none' style='width:100%;table-layout:fixed !important'>
+         <tr>
+          <td align='center' style='padding:0;Margin:0'>
+           <table bgcolor='#ffffff' align='center' cellpadding='0' cellspacing='0' class='es-content-body' role='none' style='background-color:#FFFFFF;width:600px;border-radius:16px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.08);'>
+             <tr>
+              <td align='left' class='es-m-p0b' style='padding:0;Margin:0;padding-top:15px;padding-right:20px;padding-left:20px'>
+               <table cellpadding='0' cellspacing='0' width='100%' role='none'>
+                 <tr>
+                  <td align='center' valign='top' style='padding:0;Margin:0;width:560px'>
+                   <table cellpadding='0' cellspacing='0' width='100%' role='presentation'>
+                     <tr>
+                      <td align='center' style='padding:0;Margin:0;padding-top:10px;padding-bottom:10px;font-size:0px'>
+                        <a target='_blank' href='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Cabritos_2011_12_13Feb_221.JPG/1280px-Cabritos_2011_12_13Feb_221.JPG' style='text-decoration:underline;color:#5C68E2;font-size:14px'>
+                          <img src='https://ekxjnkq.stripocdn.email/content/guids/CABINET_9edf6ab6e40ac9330ee90c4b08b854ebc40bfe8569461cff6386603619a5f395/images/cabritos_2011_12_13feb_221.JPG' alt='' width='450' title='' class='adapt-img' style='display:block;font-size:14px;border:0;outline:none;text-decoration:none;border-radius:12px'>
+                        </a>
+                      </td>
+                     </tr>
+                     <tr>
+                      <td align='center' style='padding-top:10px;'>
+                        <p style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:16px;line-height:24px;color:#5c68e2;margin:0 0 10px 0;'>
+                          Esperamos que te encuentres bien. Te enviamos este mensaje para ayudarte a restaurar tu contraseña.
+                        </p>
+                      </td>
+                     </tr>
+                     <tr>
+                      <td align='center' class='es-m-p0r es-m-p0l es-text-2265' style='padding-top:15px;padding-right:40px;padding-bottom:15px;padding-left:40px'>
+                        <h1 class='es-m-txt-c es-text-mobile-size-28 es-override-size' style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:35px;font-weight:bold;line-height:42px;color:#333333'>Restaurar Contraseña</h1>
+                      </td>
+                     </tr>
+                     <tr>
+                      <td align='center' style='padding-top:10px'>
+                        <p style='font-family:arial, helvetica neue, helvetica, sans-serif;line-height:28px;color:#333333;font-size:14px'>Después de dar click en el botón sigue estos pasos:</p>
+                        <p style='font-family:arial, helvetica neue, helvetica, sans-serif;line-height:28px;color:#333333;font-size:14px'>1. Coloca tu nueva contraseña</p>
+                        <p style='font-family:arial, helvetica neue, helvetica, sans-serif;line-height:28px;color:#333333;font-size:14px'>2. Confirma tu nueva contraseña</p>
+                        <p style='font-family:arial, helvetica neue, helvetica, sans-serif;line-height:28px;color:#333333;font-size:14px'>3. Haz click en aceptar</p>
+                        <div style='background:#f1f6ef;border-radius:8px;padding:18px 0;margin:18px 0 18px 0;display:inline-block;min-width:220px;'>
+                          <span style='font-size:22px;letter-spacing:4px;color:#5c68e2;font-family:Courier New, monospace;font-weight:bold;'>{verification}</span>
+                        </div>
+                      </td>
+                     </tr>
+                   </table>
+                  </td>
+                 </tr>
+               </table>
+              </td>
+             </tr>
+             <tr>
+              <td align='left' style='padding-right:20px;padding-left:20px;padding-bottom:20px'>
+               <table cellpadding='0' cellspacing='0' width='100%' role='none'>
+                 <tr>
+                  <td align='center' valign='top' style='width:560px'>
+                   <table cellpadding='0' cellspacing='0' width='100%' style='border-radius:5px' role='presentation'>
+                     <tr>
+                      <td align='center' style='padding-top:10px;padding-bottom:10px'>
+                        <span class='es-button-border' style='border-style:solid;border-color:#2CB543;background:#5ce277;border-width:0px;display:inline-block;border-radius:6px;width:auto'>
+                          <a href='{resetLink}' target='_blank' class='es-button' style='text-decoration:none;color:#FFFFFF;font-size:20px;padding:10px 30px 10px 30px;display:inline-block;background:#5ce277;border-radius:6px;font-family:arial, helvetica neue, helvetica, sans-serif;line-height:24px;width:auto;text-align:center;letter-spacing:0;'>Restaura tu contraseña aquí</a>
+                        </span>
+                      </td>
+                     </tr>
+                     <tr>
+                      <td align='center' class='es-text-2848' style='padding-top:10px'>
+                        <h3 class='es-m-txt-c es-text-mobile-size-18' style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:18px;font-weight:bold;line-height:27px;color:#333333'>Por seguridad este link dejará de ser útil después de 30 minutos.</h3>
+                      </td>
+                     </tr>
+                     <tr>
+                      <td align='center' style='padding-top:10px;padding-bottom:10px'>
+                        <p style='font-family:arial, helvetica neue, helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px'>Si no hiciste la solicitud por favor ignora este mensaje.</p>
+                      </td>
+                     </tr>
+                   </table>
+                  </td>
+                 </tr>
+               </table>
+              </td>
+             </tr>
+           </table>
+          </td>
+         </tr>
+       </table>
+       <table cellpadding='0' cellspacing='0' align='center' class='es-footer' role='none' style='width:100%;table-layout:fixed !important;background-color:transparent;background-repeat:repeat;background-position:center top'>
+         <tr>
+          <td align='center'>
+           <table align='center' cellpadding='0' cellspacing='0' class='es-footer-body' style='background-color:transparent;width:600px' role='none'>
+             <tr>
+              <td align='left' style='padding-right:20px;padding-left:20px;padding-bottom:20px;padding-top:20px'>
+               <table cellpadding='0' cellspacing='0' width='100%' role='none'>
+                 <tr>
+                  <td align='left' style='width:560px'>
+                   <table cellpadding='0' cellspacing='0' width='100%' role='presentation'>
+                     <tr>
+                      <td align='center' style='padding-bottom:35px'>
+                        <p style='font-family:arial, helvetica neue, helvetica, sans-serif;line-height:18px;color:#333333;font-size:12px'>Derechos de imagen reservados</p>
+                        <p style='font-family:arial, helvetica neue, helvetica, sans-serif;line-height:18px;color:#333333;font-size:12px'>Autor de la imagen: <a href='https://commons.wikimedia.org/wiki/User_talk:Ymleon' style='text-decoration:underline;color:#333333;font-size:12px'>Yolanda M. Leon</a> <br>Bajo la licencia: CC BY-SA 4.0</p>
+                      </td>
+                     </tr>
+                   </table>
+                  </td>
+                 </tr>
+               </table>
+              </td>
+             </tr>
+           </table>
+          </td>
+         </tr>
+       </table>
+      </td>
+     </tr>
+   </table>
+  </div>
+ </body>
+</html>" ,
+                Subject = "Recuperación de contraseña 🦎"
 
             });
 
@@ -252,10 +380,116 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
             }
         }
 
-        public Task<ApiResponse<RegisterResponse>> RegisterOwnerAsync(RegisterRequest registerRequest)
+        public async Task<ApiResponse<RegisterResponse>> RegisterOwnerAsync(RegisterRequest registerRequest)
         {
-            throw new NotImplementedException();
+            RegisterResponse response = new();
+
+            var userSameUsername = await userManager.FindByNameAsync(registerRequest.UserName);
+            if (userSameUsername != null)
+            {
+                return ApiResponse<RegisterResponse>.ErrorResponse($"this username {userSameUsername} is already taken");
+            }
+
+            var userWithEmail = await userManager.FindByEmailAsync(registerRequest.Email);
+            if (userWithEmail != null)
+            {
+                return ApiResponse<RegisterResponse>.ErrorResponse($"this email {userWithEmail} is already taken");
+            }
+
+            User owner = new()
+            {
+                FirstName = registerRequest.FirstName,
+                LastName = registerRequest.LastName,
+                UserName = registerRequest.UserName,
+                PhoneNumber = registerRequest.PhoneNumber,
+                Email = registerRequest.Email
+            };
+
+            var result = await userManager.CreateAsync(owner, registerRequest.Password);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(owner, Roles.Admin.ToString());
+                response.Email = registerRequest.Email;
+                response.Username = registerRequest.UserName;
+                response.UserId = owner.Id;
+
+                var verification = await SendVerificationEmailUrlAsync(owner);
+                await emailSender.SendAsync(new EmailRequestDto
+                {
+                    To = registerRequest.Email,
+                    Body = @"
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:o='urn:schemas-microsoft-com:office:office' lang='es'>
+<head>
+  <meta charset='UTF-8'>
+  <meta content='width=device-width, initial-scale=1' name='viewport'>
+  <meta name='x-apple-disable-message-reformatting'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta content='telephone=no' name='format-detection'>
+  <title>Bienvenido a Fauna Enriquillo</title>
+</head>
+<body class='body' style='width:100%;height:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0'>
+  <div dir='ltr' class='es-wrapper-color' lang='es' style='background-color:#F1F6EF'>
+    <table width='100%' cellspacing='0' cellpadding='0' class='es-wrapper' role='none' style='width:100%;height:100%;background-repeat:repeat;background-position:center top;background-color:#F1F6EF'>
+      <tr>
+        <td valign='top' style='padding:0;Margin:0'>
+          <table cellpadding='0' cellspacing='0' align='center' class='es-content' role='none' style='width:100%;table-layout:fixed !important'></table>
+          <table cellpadding='0' cellspacing='0' align='center' class='es-content' role='none' style='width:100%;table-layout:fixed !important'>
+            <tr>
+              <td align='center' style='padding:0;Margin:0'>
+                <table bgcolor='#ffffff' align='center' cellpadding='0' cellspacing='0' class='es-content-body' role='none' style='background-color:#FFFFFF;width:600px;border-radius:16px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.08);'>
+                  <tr>
+                    <td align='center' style='padding:0;Margin:0;padding-top:20px'>
+                      <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Lago_Enriquillo2.jpg/1280px-Lago_Enriquillo2.jpg' alt='Lago Enriquillo' width='480' style='display:block;border-radius:12px;margin-bottom:20px;max-width:90%;height:auto;'>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align='center' style='padding:0 40px 0 40px;'>
+                      <h1 style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:30px;font-weight:bold;line-height:38px;color:#333333;margin-bottom:10px;'>¡Bienvenido a Fauna Enriquillo!</h1>
+                      <p style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:16px;line-height:24px;color:#333333;margin:0 0 18px 0;'>
+                        Gracias por registrarte y formar parte de nuestra comunidad.<br>
+                        Estamos felices de tenerte con nosotros.
+                      </p>
+                      <p style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:15px;line-height:22px;color:#333333;margin:0 0 10px 0;'>
+                        Para activar tu cuenta, utiliza el siguiente código de verificación:
+                      </p>
+                      <div style='background:#f1f6ef;border-radius:8px;padding:18px 0;margin:0 0 18px 0;'>
+                        <span style='font-size:22px;letter-spacing:4px;color:#5c68e2;font-family:Courier New, monospace;font-weight:bold;'>{verification}</span>
+                      </div>
+                      <p style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:13px;line-height:20px;color:#888;margin:0 0 10px 0;'>
+                        Si no solicitaste esta cuenta, puedes ignorar este mensaje.
+                      </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align='center' style='padding:0 0 20px 0;'>
+                      <p style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:12px;line-height:18px;color:#bdbdbd;margin:0;'>
+                        © 2025 Fauna Enriquillo. Todos los derechos reservados.
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
+",
+                    Subject = "Confirmación de registro 🐊"
+
+                });
+            }
+            else
+            {
+                return ApiResponse<RegisterResponse>.ErrorResponse($"An error occurred trying to register the user");
+            }
+            return ApiResponse<RegisterResponse>.SuccessResponse(response);
         }
+            
 
         public async Task<ApiResponse<RegisterResponse>> RegisterAccountAsync(RegisterRequest registerRequest, Roles roles)
         {
@@ -293,8 +527,67 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
                 await emailSender.SendAsync(new EmailRequestDto
                 {
                     To = registerRequest.Email,
-                    Body = $@"Colocar plantilla aqui -yaservi",
-                    Subject = "Confirm Your Account Registration"
+                    Body = $@"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:o='urn:schemas-microsoft-com:office:office' lang='es'>
+<head>
+  <meta charset='UTF-8'>
+  <meta content='width=device-width, initial-scale=1' name='viewport'>
+  <meta name='x-apple-disable-message-reformatting'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta content='telephone=no' name='format-detection'>
+  <title>Bienvenido a Fauna Enriquillo</title>
+</head>
+<body class='body' style='width:100%;height:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0'>
+  <div dir='ltr' class='es-wrapper-color' lang='es' style='background-color:#F1F6EF'>
+    <table width='100%' cellspacing='0' cellpadding='0' class='es-wrapper' role='none' style='width:100%;height:100%;background-repeat:repeat;background-position:center top;background-color:#F1F6EF'>
+      <tr>
+        <td valign='top' style='padding:0;Margin:0'>
+          <table cellpadding='0' cellspacing='0' align='center' class='es-content' role='none' style='width:100%;table-layout:fixed !important'></table>
+          <table cellpadding='0' cellspacing='0' align='center' class='es-content' role='none' style='width:100%;table-layout:fixed !important'>
+            <tr>
+              <td align='center' style='padding:0;Margin:0'>
+                <table bgcolor='#ffffff' align='center' cellpadding='0' cellspacing='0' class='es-content-body' role='none' style='background-color:#FFFFFF;width:600px;border-radius:16px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.08);'>
+                  <tr>
+                    <td align='center' style='padding:0;Margin:0;padding-top:20px'>
+                      <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Lago_Enriquillo2.jpg/1280px-Lago_Enriquillo2.jpg' alt='Lago Enriquillo' width='480' style='display:block;border-radius:12px;margin-bottom:20px;max-width:90%;height:auto;'>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align='center' style='padding:0 40px 0 40px;'>
+                      <h1 style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:30px;font-weight:bold;line-height:38px;color:#333333;margin-bottom:10px;'>¡Bienvenido a Fauna Enriquillo!</h1>
+                      <p style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:16px;line-height:24px;color:#333333;margin:0 0 18px 0;'>
+                        Gracias por registrarte y formar parte de nuestra comunidad.<br>
+                        Estamos felices de tenerte con nosotros.
+                      </p>
+                      <p style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:15px;line-height:22px;color:#333333;margin:0 0 10px 0;'>
+                        Para activar tu cuenta, utiliza el siguiente código de verificación:
+                      </p>
+                      <div style='background:#f1f6ef;border-radius:8px;padding:18px 0;margin:0 0 18px 0;'>
+                        <span style='font-size:22px;letter-spacing:4px;color:#5c68e2;font-family:Courier New, monospace;font-weight:bold;'>{verification}</span>
+                      </div>
+                      <p style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:13px;line-height:20px;color:#888;margin:0 0 10px 0;'>
+                        Si no solicitaste esta cuenta, puedes ignorar este mensaje.
+                      </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align='center' style='padding:0 0 20px 0;'>
+                      <p style='font-family:arial, helvetica neue, helvetica, sans-serif;font-size:12px;line-height:18px;color:#bdbdbd;margin:0;'>
+                        © 2025 Fauna Enriquillo. Todos los derechos reservados.
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>",
+                    Subject = "Confirmación de registro 🐊"
                 });
             }
             else

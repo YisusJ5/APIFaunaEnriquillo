@@ -25,4 +25,9 @@
     <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Shared\APIFaunaEnriquillo.InfraestructureLayer.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="Validations\" />
+  </ItemGroup>
+
 </Project>
