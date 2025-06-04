@@ -7,13 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageReference Include="CloudinaryDotNet" Version="1.27.5" />
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.15">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.6.2" />
   </ItemGroup>
@@ -23,11 +29,6 @@
     <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Identity\APIFaunaEnriquillo.InfraestructureLayer.Identity.csproj" />
     <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Persistence\APIFaunaEnriquillo.InfraestructureLayer.Persistence.csproj" />
     <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Shared\APIFaunaEnriquillo.InfraestructureLayer.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Folder Include="Validations\" />
   </ItemGroup>
 
 </Project>

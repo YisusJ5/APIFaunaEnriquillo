@@ -384,7 +384,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
         {
             RegisterResponse response = new();
 
-            var userSameUsername = await userManager.FindByNameAsync(registerRequest.UserName);
+            var userSameUsername = await userManager.FindByNameAsync(registerRequest.Username);
             if (userSameUsername != null)
             {
                 return ApiResponse<RegisterResponse>.ErrorResponse($"this username {userSameUsername} is already taken");
@@ -400,24 +400,25 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
             {
                 FirstName = registerRequest.FirstName,
                 LastName = registerRequest.LastName,
-                UserName = registerRequest.UserName,
+                UserName = registerRequest.Username,
                 PhoneNumber = registerRequest.PhoneNumber,
                 Email = registerRequest.Email
             };
+
 
             var result = await userManager.CreateAsync(owner, registerRequest.Password);
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(owner, Roles.Admin.ToString());
                 response.Email = registerRequest.Email;
-                response.Username = registerRequest.UserName;
+                response.Username = registerRequest.Username;
                 response.UserId = owner.Id;
 
                 var verification = await SendVerificationEmailUrlAsync(owner);
                 await emailSender.SendAsync(new EmailRequestDto
                 {
                     To = registerRequest.Email,
-                    Body = @"
+                    Body = @$"
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:o='urn:schemas-microsoft-com:office:office' lang='es'>
 <head>
@@ -494,10 +495,10 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
         public async Task<ApiResponse<RegisterResponse>> RegisterAccountAsync(RegisterRequest registerRequest, Roles roles)
         {
             RegisterResponse response = new();
-            var username = await userManager.FindByNameAsync(registerRequest.UserName);
+            var username = await userManager.FindByNameAsync(registerRequest.Username);
             if (username != null)
             {
-                return ApiResponse<RegisterResponse>.ErrorResponse($"this user {registerRequest.UserName} is already taken");
+                return ApiResponse<RegisterResponse>.ErrorResponse($"this user {registerRequest.Username} is already taken");
             }
 
             var userWithEmail = await userManager.FindByEmailAsync(registerRequest.Email);
@@ -510,7 +511,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
             {
                 FirstName = registerRequest.FirstName,
                 LastName = registerRequest.LastName,
-                UserName = registerRequest.UserName,
+                UserName = registerRequest.Username,
                 Email = registerRequest.Email,
                 PhoneNumber = registerRequest.PhoneNumber,
             };
@@ -519,7 +520,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
             if (result.Succeeded)
             {
                 response.Email = registerRequest.Email;
-                response.Username = registerRequest.UserName;
+                response.Username = registerRequest.Username;
                 response.UserId = user.Id;
 
                 await userManager.AddToRoleAsync(user, roles.ToString());

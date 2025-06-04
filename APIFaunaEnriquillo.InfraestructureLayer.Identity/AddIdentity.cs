@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Jwt;
+using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Service;
 using APIFaunaEnriquillo.Core.DomainLayer.Setting;
 using APIFaunaEnriquillo.InfraestructureLayer.Identity.Context;
 using APIFaunaEnriquillo.InfraestructureLayer.Identity.Models;
+using APIFaunaEnriquillo.InfraestructureLayer.Shared.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -89,6 +91,11 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Identity
                 };
 
             });
+            #endregion
+
+
+            #region Services
+            services.AddScoped<IAccountService, AccountService>();
             #endregion
 
         }

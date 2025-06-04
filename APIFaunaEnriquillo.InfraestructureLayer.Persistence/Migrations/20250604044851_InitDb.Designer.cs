@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
 {
     [DbContext(typeof(FaunaDbContext))]
-    [Migration("20250602013042_Init")]
-    partial class Init
+    [Migration("20250604044851_InitDb")]
+    partial class InitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
