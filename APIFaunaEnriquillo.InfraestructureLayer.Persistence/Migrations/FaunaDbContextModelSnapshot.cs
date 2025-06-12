@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
+namespace APIFaunaEnriquillo.InfrastructureLayer.Persistence.Migrations
 {
     [DbContext(typeof(FaunaDbContext))]
     partial class FaunaDbContextModelSnapshot : ModelSnapshot

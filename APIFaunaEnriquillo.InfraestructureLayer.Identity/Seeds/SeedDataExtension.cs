@@ -24,7 +24,7 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Identity.Seeds
                 var userManager = scopedService.GetRequiredService<UserManager<User>>();
                 var roleManager = scopedService.GetRequiredService<RoleManager<IdentityRole>>();
                 await DefaultRoles.SeedAsync(userManager, roleManager);
-                await DefaultOwnerRoles.SeedAsync(userManager, roleManager);
+                await DefaultAdminRoles.SeedAsync(userManager, roleManager);
                 logger.LogInformation("Database seeding completed successfully");
 
             }

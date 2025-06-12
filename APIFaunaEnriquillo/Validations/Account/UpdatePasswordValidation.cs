@@ -1,4 +1,4 @@
-﻿using APIFaunaEnriquillo.Core.AplicationLayer.Dtos;
+﻿using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account;
 using FluentValidation;
 namespace APIFaunaEnriquillo.Validations.Account
 {

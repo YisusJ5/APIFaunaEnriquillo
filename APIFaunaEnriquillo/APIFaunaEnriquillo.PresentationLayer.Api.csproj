@@ -26,9 +26,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APIFaunaEnriquillo.Core.AplicationLayer\APIFaunaEnriquillo.Core.AplicationLayer.csproj" />
-    <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Identity\APIFaunaEnriquillo.InfraestructureLayer.Identity.csproj" />
-    <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Persistence\APIFaunaEnriquillo.InfraestructureLayer.Persistence.csproj" />
-    <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Shared\APIFaunaEnriquillo.InfraestructureLayer.Shared.csproj" />
+    <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Identity\APIFaunaEnriquillo.InfrastructureLayer.Identity.csproj" />
+    <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Persistence\APIFaunaEnriquillo.InfrastructureLayer.Persistence.csproj" />
+    <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Shared\APIFaunaEnriquillo.InfrastructureLayer.Shared.csproj" />
   </ItemGroup>
 
 </Project>

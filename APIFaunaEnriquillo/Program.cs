@@ -16,9 +16,7 @@ builder.Host.UseSerilog((context, services, configuration) =>
                  .ReadFrom.Services(services);
 });
 
-// Add services to the container.
-//Lectura connection string
-var connectionString = builder.Configuration.GetConnectionString("FaunaEnriquillo");
+//
 
 //Inyeccion de dependencias
 builder.Services.AddPersistenceMethod(config);
@@ -49,6 +47,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+
 app.UseCors("Allow");
 
 using (var scope = app.Services.CreateScope())
@@ -61,7 +60,7 @@ using (var scope = app.Services.CreateScope())
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
         await DefaultRoles.SeedAsync(userManager, roleManager);
-        await DefaultOwnerRoles.SeedAsync(userManager, roleManager);
+        await DefaultAdminRoles.SeedAsync(userManager, roleManager);
     }
     catch (Exception ex)
     {
@@ -69,6 +68,7 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred during role seeding.");
     }
 }
+
 
 app.UseExceptionHandler(_ => { });
 app.UseSerilogRequestLogging();
@@ -87,3 +87,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

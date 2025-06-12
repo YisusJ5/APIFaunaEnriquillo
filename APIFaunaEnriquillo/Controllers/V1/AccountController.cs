@@ -1,4 +1,4 @@
-﻿using APIFaunaEnriquillo.Core.AplicationLayer.Dtos;
+﻿using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Auth;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Password.Forgot;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Password.Reset;
@@ -26,6 +26,7 @@ namespace APIFaunaEnriquillo.Controllers.V1
         IValidator<AuthRequest> authValidator) : ControllerBase
     {
         [HttpPost("Admins")]
+        [Authorize(Roles = "Admin")]
         [EnableRateLimiting("Fixed")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterRequest request)
         {
@@ -55,7 +56,7 @@ namespace APIFaunaEnriquillo.Controllers.V1
             return BadRequest(result.ErrorMessage);
         }
 
-        [HttpPost("Confirm_Account")]
+        [HttpPost("ConfirmAccount")]
         [EnableRateLimiting("Fixed")]
         public async Task<IActionResult> ConfirmAccountAsync([FromQuery] string userId, [FromQuery] string token)
         {
@@ -83,7 +84,6 @@ namespace APIFaunaEnriquillo.Controllers.V1
         }
 
         [HttpPost("{userId}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAccountAsync([FromRoute] string userId)
         {
            await accountService.RemoveAccountAsync(userId);
@@ -92,7 +92,7 @@ namespace APIFaunaEnriquillo.Controllers.V1
 
 
 
-        [HttpPost("Forgot_Password")]
+        [HttpPost("ForgotPassword")]
         [EnableRateLimiting("Fixed")]
         public async  Task<IActionResult> ForgotPasswordAsync([FromBody] ForgotRequest request)
         {
@@ -105,7 +105,7 @@ namespace APIFaunaEnriquillo.Controllers.V1
             return NotFound(result.ErrorMessage);
         }
 
-        [HttpPost("Reset_Password")]
+        [HttpPost("ResetPassword")]
         [EnableRateLimiting("Fixed")]
         public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
         {
@@ -119,7 +119,6 @@ namespace APIFaunaEnriquillo.Controllers.V1
         }
 
         [HttpGet("{userId}/datails")]
-        [Authorize]
         [EnableRateLimiting("Fixed")]
 
         public async Task<IActionResult> GetDatailsAsync([FromRoute] string userId)
@@ -131,7 +130,6 @@ namespace APIFaunaEnriquillo.Controllers.V1
         }
 
         [HttpPatch("{id}")]
-        [Authorize]
         public async Task<IActionResult> UpdateAccountAsync([FromRoute] string id, [FromBody] UpdateAccountDto request)
         {
             var validationResult = await updateValidator.ValidateAsync(request, new CancellationToken());
@@ -147,8 +145,8 @@ namespace APIFaunaEnriquillo.Controllers.V1
         }
 
         [HttpPost("logout")]
-        [Authorize]
         [EnableRateLimiting("Fixed")]
+        [Authorize]
         public async Task<IActionResult> LougoutAsync()
         {
             await accountService.LogOutAsync();

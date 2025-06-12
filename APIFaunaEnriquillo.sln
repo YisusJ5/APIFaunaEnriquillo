@@ -9,19 +9,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo.Core.Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo.Core.AplicationLayer", "APIFaunaEnriquillo.Core.AplicationLayer\APIFaunaEnriquillo.Core.AplicationLayer.csproj", "{59A38163-7349-4D56-9E57-51078DBB8CC3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraestructure", "{5CF6A11B-8442-4D88-BE24-99580B8645AE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{5CF6A11B-8442-4D88-BE24-99580B8645AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo.InfraestructureLayer.Persistence", "APIFaunaEnriquillo.InfraestructureLayer.Persistence\APIFaunaEnriquillo.InfraestructureLayer.Persistence.csproj", "{C16D07DB-BA56-4B7E-A99E-CB4CC2297B27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo.InfrastructureLayer.Persistence", "APIFaunaEnriquillo.InfraestructureLayer.Persistence\APIFaunaEnriquillo.InfrastructureLayer.Persistence.csproj", "{C16D07DB-BA56-4B7E-A99E-CB4CC2297B27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo.InfraestructureLayer.Identity", "APIFaunaEnriquillo.InfraestructureLayer.Identity\APIFaunaEnriquillo.InfraestructureLayer.Identity.csproj", "{FAB7FB94-F98B-4D3A-A8D2-1DE734367BC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo.InfrastructureLayer.Identity", "APIFaunaEnriquillo.InfraestructureLayer.Identity\APIFaunaEnriquillo.InfrastructureLayer.Identity.csproj", "{FAB7FB94-F98B-4D3A-A8D2-1DE734367BC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo.InfraestructureLayer.Shared", "APIFaunaEnriquillo.InfraestructureLayer.Shared\APIFaunaEnriquillo.InfraestructureLayer.Shared.csproj", "{C6444785-59C4-43D1-A04E-94B44F7EF2C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo.InfrastructureLayer.Shared", "APIFaunaEnriquillo.InfraestructureLayer.Shared\APIFaunaEnriquillo.InfrastructureLayer.Shared.csproj", "{C6444785-59C4-43D1-A04E-94B44F7EF2C8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentatation", "Presentatation", "{EE6B3426-1FF2-415E-A900-F896FF7F7542}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{EE6B3426-1FF2-415E-A900-F896FF7F7542}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo", "APIFaunaEnriquillo\APIFaunaEnriquillo.csproj", "{81A73A5D-157B-4F86-9204-F314DDE256F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo.PresentationLayer.Api", "APIFaunaEnriquillo\APIFaunaEnriquillo.PresentationLayer.Api.csproj", "{81A73A5D-157B-4F86-9204-F314DDE256F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIFaunaEnriquillo.Test", "APIFaunaEnriquillo.Test\APIFaunaEnriquillo.Test.csproj", "{A9696D9E-F60A-4EBA-8681-4C9F23CCF0E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{967F13FD-98B2-4E46-8BE3-6A7C25CE215E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,16 +57,27 @@ Global
 		{81A73A5D-157B-4F86-9204-F314DDE256F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81A73A5D-157B-4F86-9204-F314DDE256F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81A73A5D-157B-4F86-9204-F314DDE256F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9696D9E-F60A-4EBA-8681-4C9F23CCF0E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9696D9E-F60A-4EBA-8681-4C9F23CCF0E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9696D9E-F60A-4EBA-8681-4C9F23CCF0E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9696D9E-F60A-4EBA-8681-4C9F23CCF0E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{8640F681-D76F-4B94-A9B6-5E1F1402BBA0} = {967F13FD-98B2-4E46-8BE3-6A7C25CE215E}
 		{9037B3BB-312F-402C-9EE3-9312F6DC9C7C} = {8640F681-D76F-4B94-A9B6-5E1F1402BBA0}
 		{59A38163-7349-4D56-9E57-51078DBB8CC3} = {8640F681-D76F-4B94-A9B6-5E1F1402BBA0}
+		{5CF6A11B-8442-4D88-BE24-99580B8645AE} = {967F13FD-98B2-4E46-8BE3-6A7C25CE215E}
 		{C16D07DB-BA56-4B7E-A99E-CB4CC2297B27} = {5CF6A11B-8442-4D88-BE24-99580B8645AE}
 		{FAB7FB94-F98B-4D3A-A8D2-1DE734367BC9} = {5CF6A11B-8442-4D88-BE24-99580B8645AE}
 		{C6444785-59C4-43D1-A04E-94B44F7EF2C8} = {5CF6A11B-8442-4D88-BE24-99580B8645AE}
+		{EE6B3426-1FF2-415E-A900-F896FF7F7542} = {967F13FD-98B2-4E46-8BE3-6A7C25CE215E}
 		{81A73A5D-157B-4F86-9204-F314DDE256F7} = {EE6B3426-1FF2-415E-A900-F896FF7F7542}
+		{A9696D9E-F60A-4EBA-8681-4C9F23CCF0E4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {89B23EC2-62D4-4A81-89A3-49293EE04EF0}
 	EndGlobalSection
 EndGlobal

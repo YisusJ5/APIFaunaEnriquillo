@@ -30,5 +30,15 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository
                 FirstOrDefaultAsync(cancellationToken);
 
         }
+
+        public async Task<IEnumerable<Planta>> GetRecentAsync(CancellationToken cancellationToken)
+        {
+            return await _dbContext.Set<Planta>()
+           .AsNoTracking()
+           .OrderByDescending(r => r.CreatedAt)
+           .Take(10)
+           .ToListAsync(cancellationToken);
+        }
+
     }
 }

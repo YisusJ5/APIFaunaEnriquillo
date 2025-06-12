@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace APIFaunaEnriquillo.InfraestructureLayer.Identity.Migrations
+namespace APIFaunaEnriquillo.InfrastructureLayer.Identity.Migrations
 {
     [DbContext(typeof(IdentityContext))]
     partial class IdentityContextModelSnapshot : ModelSnapshot

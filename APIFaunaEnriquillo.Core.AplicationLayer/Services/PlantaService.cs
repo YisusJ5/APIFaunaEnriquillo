@@ -15,6 +15,7 @@ using APIFaunaEnriquillo.Core.AplicationLayer.Pagination;
 using APIFaunaEnriquillo.Core.DomainLayer.Agregate.HabitatAgregate;
 using APIFaunaEnriquillo.Core.DomainLayer.Enums;
 using APIFaunaEnriquillo.Core.DomainLayer.Utils;
+using APIFaunaEnriquillo.Core.DomainLayer.Value_object.AnimalObjects;
 using APIFaunaEnriquillo.Core.DomainLayer.Value_object.PlantObjects;
 using Microsoft.Extensions.Logging;
 using static APIFaunaEnriquillo.Core.DomainLayer.Utils.Result;
@@ -125,6 +126,43 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             _logger.LogInformation("Planta with ID {IdPlanta} was successfully retrieved ", Id);
             return ResultT<PlantaDto>.Success(plantaDto);
         }
+
+        public async Task<ResultT<IEnumerable<PlantaDto>>> GetRecentAsync(CancellationToken cancellationToken)
+        {
+            var GetRecent = await _repository.GetRecentAsync(cancellationToken);
+            if (GetRecent == null || !GetRecent.Any())
+            {
+                _logger.LogError("No recent registered plant found.");
+
+                return ResultT<IEnumerable<PlantaDto>>.Failure(Error.NotFound("404", "The list is empty"));
+            }
+
+            IEnumerable<PlantaDto> plantDto = GetRecent.Select(x => new PlantaDto
+            (
+                 IdPlanta: x.IdPlanta,
+             NombreComun: x.NombreComun.Value,
+             NombreCientifico: x.NombreCientifico.Value,
+             EstadoDeConservacion: x.EstadoDeConservacion,
+             EstatusBiogeografico: x.EstatusBiogeografico,
+            Filo: x.Filo.Value,
+            Clase: x.Clase.Value,
+             Orden: x.Orden.Value,
+             Genero: x.Genero.Value,
+             Familia: x.Familia.Value,
+             Especie: x.Especie.Value,
+             SubEspecie: x.SubEspecie.Value,
+             Observaciones: x.Observaciones,
+             DistribucionGeograficaUrl: x.DistribucionGeograficaUrl,
+             IdHabitat: x.HabitatId,
+             ImagenUrl: x.ImagenUrl,
+             CreatedAt: x.CreatedAt,
+             UpdatedAt: x.UpdatedAt
+            ));
+
+            _logger.LogInformation("Successfully retrieved {Count} recent plants.", plantDto.Count());
+
+            return ResultT<IEnumerable<PlantaDto>>.Success(plantDto);
+        }
         public async Task<ResultT<PlantaDto>> CreateAsync(PlantaInsertDto EntityInsertDto, CancellationToken cancellationToken)
         {
             if (EntityInsertDto == null)
@@ -192,7 +230,9 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 SubEspecie = new SubEspeciePlant(EntityInsertDto.SubEspecie),
                 Observaciones = EntityInsertDto.Observaciones,
                 DistribucionGeograficaUrl = DistribucionGeografica,
+                HabitatId = EntityInsertDto.IdHabitat,
                 ImagenUrl = Imagen,
+                CreatedAt = DateTime.Now
 
             };
 
@@ -228,11 +268,11 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
         public async Task<ResultT<PlantaDto>> UpdateAsync(Guid Id, PlantaUpdateDto Entity, CancellationToken cancellationToken)
         {
-            var planta = await _repository.GetByIdAsync(Id, cancellationToken);
+            var Plant = await _repository.GetByIdAsync(Id, cancellationToken);
 
-            if (planta == null)
+            if (Plant == null)
             {
-                _logger.LogError("no registered Planta found ");
+                _logger.LogError("no registered plant found ");
                 return ResultT<PlantaDto>.Failure(Error.Failure("404", $"{Id} is already registered"));
 
             }
@@ -240,7 +280,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             if (existCommonName)
             {
-                _logger.LogError("Planta registration failed: A planta with the name '{NombreComun}' already exists", Entity.NombreComun);
+                _logger.LogError("Plant registration failed: A plant with the name '{NombreComun}' already exists", Entity.NombreComun);
                 return ResultT<PlantaDto>.Failure(
                     Error.Failure("400", $"A Plant with the Id '{Id} already exists'. Please check it out ")
 
@@ -250,12 +290,13 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
             if (scientificName)
             {
-                _logger.LogError("Planta registration failed: A planta with the name '{NombreCientifico}' already exists", Entity.NombreCientifico);
+                _logger.LogError("Plant registration failed: A plant with the name '{NombreCientifico}' already exists", Entity.NombreCientifico);
                 return ResultT<PlantaDto>.Failure(
-                    Error.Failure("400", $"A planta with the Id '{Id} already exists'. Please check it out ")
+                    Error.Failure("400", $"A plant with the Id '{Id} already exists'. Please check it out ")
 
                     );
             }
+
             string? imagen = null;
             if (Entity.Imagen != null)
             {
@@ -272,45 +313,48 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             }
 
 
-            planta.NombreComun = new NombreComunPlant(Entity.NombreComun);
-            planta.NombreCientifico = new NombreCientificoPlant(Entity.NombreCientifico);
-            planta.EstadoDeConservacion = Entity.EstadoDeConservacion;
-            planta.EstatusBiogeografico = Entity.EstatusBiogeografico;
-            planta.Filo = new FiloPlant(Entity.Filo);
-            planta.Clase = new ClasePlant (Entity.Clase);
-            planta.Orden = new OrdenPlant(Entity.Orden);
-            planta.Genero = new GeneroPlant(Entity.Genero);
-            planta.Familia = new FamiliaPlant(Entity.Familia);
-            planta.Especie = new EspeciePlant(Entity.Especie);
-            planta.SubEspecie = new SubEspeciePlant(Entity.SubEspecie);
-            planta.Observaciones = Entity.Observaciones;
-            planta.DistribucionGeograficaUrl = distribucionGeografica;
-            planta.ImagenUrl = imagen;
-            planta.UpdatedAt = DateTime.Now;
+            Plant.NombreComun = new NombreComunPlant(Entity.NombreComun);
+            Plant.NombreCientifico = new NombreCientificoPlant(Entity.NombreCientifico);
+            Plant.EstadoDeConservacion = Entity.EstadoDeConservacion;
+            Plant.Filo = new FiloPlant(Entity.Filo);
+            Plant.Clase = new ClasePlant(Entity.Clase);
+            Plant.Orden = new OrdenPlant(Entity.Orden);
+            Plant.Familia = new FamiliaPlant(Entity.Familia);
+            Plant.Genero = new GeneroPlant(Entity.Genero);
+            Plant.Especie = new EspeciePlant(Entity.Especie);
+            Plant.SubEspecie = new SubEspeciePlant(Entity.SubEspecie);
+            Plant.Observaciones = Entity.Observaciones;
+            Plant.DistribucionGeograficaUrl = distribucionGeografica;
+            Plant.ImagenUrl = imagen;
+            Plant.UpdatedAt = DateTime.Now;
 
-            PlantaDto plantaDto = new(
-              IdPlanta: planta.IdPlanta,
-              NombreComun: planta.NombreComun.Value,
-              NombreCientifico: planta.NombreCientifico.Value,
-              EstadoDeConservacion:  planta.EstadoDeConservacion,
-              EstatusBiogeografico:  planta.EstatusBiogeografico,
-              Filo: planta.Filo.Value,
-              Clase: planta.Clase.Value,
-              Orden: planta.Orden.Value,
-              Genero: planta.Genero.Value,
-              Familia: planta.Familia.Value,
-              Especie: planta.Especie.Value,
-              SubEspecie: planta.SubEspecie.Value,
-              Observaciones: planta.Observaciones,
-              DistribucionGeograficaUrl:  planta.DistribucionGeograficaUrl,
-              IdHabitat: planta.HabitatId,
-              ImagenUrl: planta.ImagenUrl,
-              CreatedAt: planta.CreatedAt,
-              UpdatedAt: planta.UpdatedAt
+            await _repository.UpdateAsync(Plant, cancellationToken);
+
+            _logger.LogInformation("Plant with the id {IdPlanta} has been successfully created  ", Plant.IdPlanta);
+
+            PlantaDto plantaDto = new
+                (
+                IdPlanta: Plant.IdPlanta,
+                NombreComun: Plant.NombreComun.Value,
+                NombreCientifico: Plant.NombreCientifico.Value,
+                EstadoDeConservacion: Plant.EstadoDeConservacion,
+                EstatusBiogeografico: Plant.EstatusBiogeografico,
+                Filo: Plant.Filo.Value,
+                Clase: Plant.Clase.Value,
+                Orden: Plant.Orden.Value,
+                Familia: Plant.Familia.Value,
+                Genero: Plant.Genero.Value,
+                Especie: Plant.Especie.Value,
+                SubEspecie: Plant.SubEspecie.Value,
+                Observaciones: Plant.Observaciones,
+                DistribucionGeograficaUrl: Plant.DistribucionGeograficaUrl,
+                ImagenUrl: Plant.ImagenUrl,
+                IdHabitat: Plant.HabitatId,
+                CreatedAt: Plant.CreatedAt,
+                UpdatedAt: Plant.UpdatedAt
 
                 );
 
-            _logger.LogInformation("Register plant found");
 
             return ResultT<PlantaDto>.Success(plantaDto);
 
@@ -376,7 +420,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
                );
 
-            _logger.LogInformation("Search successful: Found registered animal {commonName} wit id {IdAnimal}", filterBycommonName.NombreComun, filterBycommonName.IdPlanta);
+            _logger.LogInformation("Search successful: Found registered plant {commonName} wit id {IdPlanta}", filterBycommonName.NombreComun, filterBycommonName.IdPlanta);
             return ResultT<PlantaDto>.Success(plantaDto);
 
         }
@@ -396,7 +440,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 return ResultT<PlantaDto>.Failure(Error.Failure("404", $"No plant registered under the name {scientificName}"));
 
             }
-            var filterByscientificName = await _repository.FilterByCommonNameAsync(scientificName, cancellationToken);
+            var filterByscientificName = await _repository.FilterByScientificNameAsync(scientificName, cancellationToken);
             if (filterByscientificName == null)
             {
                 _logger.LogWarning("Plant search failed: No registered plant found with the name {scientificName} ", scientificName);
@@ -426,12 +470,11 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
                );
 
-            _logger.LogInformation("Search successful: Found registered animal {NombreCientifico} wit id {IdAnimal}", filterByscientificName.NombreCientifico, filterByscientificName.IdPlanta);
+            _logger.LogInformation("Search successful: Found registered plant {NombreCientifico} wit id {Idplanta}", filterByscientificName.NombreCientifico, filterByscientificName.IdPlanta);
             return ResultT<PlantaDto>.Success(plantaDto);
         }
 
-      
-
-       
+        
     }
+   
 }

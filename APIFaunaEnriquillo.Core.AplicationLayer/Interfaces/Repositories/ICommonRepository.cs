@@ -1,4 +1,5 @@
 ﻿using APIFaunaEnriquillo.Core.AplicationLayer.Pagination;
+using APIFaunaEnriquillo.Core.DomainLayer.Agregate.HabitatAgregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,6 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repositories
     public interface ICommonRepository<TEntity> where TEntity : class
     {
         Task<TEntity> GetByIdAsync(Guid Id, CancellationToken cancellationToken);
-
         Task InsertAsync(TEntity entity, CancellationToken cancellationToken);
 
         Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);

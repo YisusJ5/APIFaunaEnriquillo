@@ -18,9 +18,6 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Identity.Seeds
 
             if (!await roleManager.RoleExistsAsync(Roles.Editor.ToString()))
                 await roleManager.CreateAsync(new IdentityRole(Roles.Editor.ToString()));
-
-            if (!await roleManager.RoleExistsAsync(Roles.Visitante.ToString()))
-                await roleManager.CreateAsync(new IdentityRole(Roles.Visitante.ToString()));
         }
 
 

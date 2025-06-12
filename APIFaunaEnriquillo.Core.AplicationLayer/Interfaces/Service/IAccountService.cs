@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using APIFaunaEnriquillo.Core.AplicationLayer.Dtos;
+using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Auth;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Password.Forgot;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Password.Reset;

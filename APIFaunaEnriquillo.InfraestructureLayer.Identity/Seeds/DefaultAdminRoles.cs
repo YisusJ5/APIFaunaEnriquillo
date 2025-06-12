@@ -5,39 +5,48 @@ using System.Text;
 using System.Threading.Tasks;
 using APIFaunaEnriquillo.Core.DomainLayer.Enums;
 using APIFaunaEnriquillo.InfraestructureLayer.Identity.Models;
+using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace APIFaunaEnriquillo.InfraestructureLayer.Identity.Seeds
 {
-    public static class DefaultOwnerRoles
+    public static class DefaultAdminRoles
     {
         public static async Task SeedAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager) 
         {
             User ownerUser = new()
             {
-                UserName = "Sr Waos",
-                FirstName = "Admin",
-                LastName = "Default",
-                Email = "yaserviperez203@gmail.com",
+                UserName = "SrEnrriquillo",
+                FirstName = "Administrador",
+                LastName = "Enriquillo",
+                Email = "enrriquillowiki@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
+                CreatedAt  = DateTime.Now
+
             };
-        
-            if (userManager.Users.All(i => i.Id != ownerUser.Id))
+
+            var user = await userManager.FindByEmailAsync(ownerUser.Email);
+            if (user == null)
             {
-                var user = await userManager.FindByEmailAsync(ownerUser.Email);
-                if (user == null)
+                var result = await userManager.CreateAsync(ownerUser, "F4un4Enriquill0P4$s#0");
+                if (result.Succeeded)
                 {
-                    await userManager.CreateAsync(ownerUser, "F4un4Enriquill0P4$s");
                     await userManager.AddToRoleAsync(ownerUser, Roles.Admin.ToString());
                     await userManager.AddToRoleAsync(ownerUser, Roles.Editor.ToString());
-                    await userManager.AddToRoleAsync(ownerUser, Roles.Visitante.ToString());
                 }
-
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        Console.WriteLine($"Error creando usuario seed: {error.Code} - {error.Description}");
+                    }
+                }
             }
 
-        
+
         }
 
     }

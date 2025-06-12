@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIFaunaEnriquillo.Core.AplicationLayer.Dtos
+namespace APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account
 {
     public class UpdateAccountDto
     {

@@ -135,6 +135,46 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             _logger.LogInformation("Animal with ID {IdAnimal} was successfully retrieved ", Id);
             return ResultT<AnimalDto>.Success(animalDto);
         }
+
+        public async Task<ResultT<IEnumerable<AnimalDto>>> GetRecentAsync(CancellationToken cancellationToken)
+        {
+            var GetRecent = await _repository.GetRecentAsync(cancellationToken);
+            if (GetRecent == null || !GetRecent.Any())
+            {
+                _logger.LogError("No recent registered animal found.");
+
+                return ResultT<IEnumerable<AnimalDto>>.Failure(Error.NotFound("404", "The list is empty"));
+            }
+
+            IEnumerable<AnimalDto> AnimalDtos = GetRecent.Select(x => new AnimalDto
+            (
+                IdAnimal: x.IdAnimal,
+                NombreComun: x.NombreComun.Value,
+                NombreCientifico: x.NombreCientifico.Value,
+                Dieta: x.Dieta,
+                EstadoDeConservacion: x.EstadoDeConservacion,
+                FormaDeReproduccion: x.FormaDeReproduccion,
+                TipoDesarrolloEmbrionario: x.TipoDesarrolloEmbrionario,
+                EstatusBiogeográfico: x.EstatusBiogeográfico,
+                Filo: x.Filo.Value,
+                Clase: x.Clase.Value,
+                Orden: x.Orden.Value,
+                Familia: x.Familia.Value,
+                Genero: x.Genero.Value,
+                Especie: x.Especie.Value,
+                SubEspecie: x.SubEspecie.Value,
+                Observaciones: x.Observaciones,
+                DistribucionGeograficaUrl: x.DistribucionGeograficaUrl,
+                ImagenUrl: x.ImagenUrl,
+                IdHabitat: x.HabitatId,
+                CreatedAt: x.CreatedAt,
+                UpdatedAt: x.UpdatedAt
+            ));
+
+            _logger.LogInformation("Successfully retrieved {Count} recent animals.", AnimalDtos.Count());
+
+            return ResultT<IEnumerable<AnimalDto>>.Success(AnimalDtos);
+        }
         public async Task<Result.ResultT<AnimalDto>> CreateAsync(AnimalInsertDto EntityInsertDto, CancellationToken cancellationToken)
         {
             if (EntityInsertDto == null)
@@ -207,7 +247,8 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 Observaciones = EntityInsertDto.Observaciones,
                 DistribucionGeograficaUrl = DistribucionGeografica,
                 ImagenUrl = Imagen,
-                HabitatId = EntityInsertDto.HabitatId
+                HabitatId = EntityInsertDto.HabitatId,
+                CreatedAt = DateTime.Now
             };
 
 
@@ -427,7 +468,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 return ResultT<AnimalDto>.Failure(Error.Failure("404", $"No animal registered under the name {scientificName}"));
 
             }
-            var filterByScientificName = await _repository.FilterByCommonNameAsync(scientificName, cancellationToken);
+            var filterByScientificName = await _repository.FilterByScientificNameAsync(scientificName, cancellationToken);
             if (filterByScientificName == null)
             {
                 _logger.LogWarning("animal search failed: No registered animal found with the name {scientificName} ", scientificName);
@@ -464,5 +505,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             return ResultT<AnimalDto>.Success(animalDto);
         }
 
+        
     }
+    
 }

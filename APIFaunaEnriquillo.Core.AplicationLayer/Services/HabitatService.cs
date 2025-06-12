@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.AnimalesDto;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.HabitatDto;
+using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.PlantasDto;
 using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repositories;
 using APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Service;
 using APIFaunaEnriquillo.Core.AplicationLayer.Pagination;
@@ -110,6 +111,34 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
             return ResultT<HabitatDto>.Success(habitatDto);
         }
 
+        public async Task<ResultT<IEnumerable<HabitatDto>>> GetRecentAsync(CancellationToken cancellationToken)
+        {
+            var GetRecent = await _repository.GetRecentAsync(cancellationToken);
+            if (GetRecent == null || !GetRecent.Any())
+            {
+                _logger.LogError("No recent registered habitat found.");
+
+                return ResultT<IEnumerable<HabitatDto>>.Failure(Error.NotFound("404", "The list is empty"));
+            }
+
+            IEnumerable<HabitatDto> habitatDto = GetRecent.Select(x => new HabitatDto
+            (
+               IdHabitat: x.IdHabitat,
+               NombreComun: x.NombreComun.Value,
+               NombreCientifico: x.NombreCientifico.Value,
+               Clima: x.Clima,
+               Descripcion: x.Descripcion,
+               UbicacionGeograficaUrl: x.UbicacionGeograficaUrl,
+               ImagenUrl: x.ImagenUrl,
+               CreatedAt: x.CreatedAt,
+               UpdatedAt: x.UpdatedAt
+            ));
+
+            _logger.LogInformation("Successfully retrieved {Count} recent habitats.", habitatDto.Count());
+
+            return ResultT<IEnumerable<HabitatDto>>.Success(habitatDto);
+        }
+
         public async Task<Result.ResultT<HabitatDto>> CreateAsync(HabitatInsertDto EntityInsertDto, CancellationToken cancellationToken)
         {
             if (EntityInsertDto == null)
@@ -169,7 +198,8 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 Clima = EntityInsertDto.Clima,
                 Descripcion = EntityInsertDto.Descripcion,
                 UbicacionGeograficaUrl = UbicacionGeografica,
-                ImagenUrl = Imagen
+                ImagenUrl = Imagen,
+                 CreatedAt = DateTime.Now
             };
 
             await _repository.InsertAsync(habitatI, cancellationToken);
@@ -340,7 +370,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
                 return ResultT<HabitatDto>.Failure(Error.Failure("404", $"No habitat registered under the name {scientificName}"));
 
             }
-            var filterByscientificName = await _repository.FilterByCommonNameAsync(scientificName, cancellationToken);
+            var filterByscientificName = await _repository.FilterByScientificNameAsync(scientificName, cancellationToken);
             if (filterByscientificName == null)
             {
                 _logger.LogWarning("Habitat search failed: No registered habitat found with the name {nombreCientifico} ", scientificName);
@@ -368,8 +398,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Services
 
         }
 
-      
-
        
     }
+    
 }

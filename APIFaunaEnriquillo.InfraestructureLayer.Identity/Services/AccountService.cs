@@ -6,7 +6,6 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using APIFaunaEnriquillo.Core.AplicationLayer.Dtos;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Auth;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Password.Forgot;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Password.Reset;
@@ -22,6 +21,7 @@ using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Jwt;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Email;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Register;
 using APIFaunaEnriquillo.Core.DomainLayer.Enums;
+using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account;
 
 namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
 {

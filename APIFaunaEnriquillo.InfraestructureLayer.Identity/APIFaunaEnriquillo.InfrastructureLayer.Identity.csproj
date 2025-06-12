@@ -27,7 +27,8 @@
   <ItemGroup>
     <ProjectReference Include="..\APIFaunaEnriquillo.Core.AplicationLayer\APIFaunaEnriquillo.Core.AplicationLayer.csproj" />
     <ProjectReference Include="..\APIFaunaEnriquillo.Core.DomainLayer\APIFaunaEnriquillo.Core.DomainLayer.csproj" />
-    <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Shared\APIFaunaEnriquillo.InfraestructureLayer.Shared.csproj" />
+    <ProjectReference Include="..\APIFaunaEnriquillo.InfraestructureLayer.Shared\APIFaunaEnriquillo.InfrastructureLayer.Shared.csproj" />
+   
   </ItemGroup>
 
 </Project>

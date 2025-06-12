@@ -11,5 +11,7 @@ namespace APIFaunaEnriquillo.Core.AplicationLayer.Interfaces.Repositories
     {
         Task<Animal?> FilterByCommonNameAsync(string commonName, CancellationToken cancellationToken);
         Task<Animal?> FilterByScientificNameAsync(string scientificName, CancellationToken cancellationToken);
+
+        Task<IEnumerable<Animal>> GetRecentAsync(CancellationToken cancellationToken);
     }
 }

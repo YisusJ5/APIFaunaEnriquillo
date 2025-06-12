@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Migrations
+namespace APIFaunaEnriquillo.InfrastructureLayer.Persistence.Migrations
 {
     [DbContext(typeof(FaunaDbContext))]
-    [Migration("20250604044851_InitDb")]
-    partial class InitDb
+    [Migration("20250609000657_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

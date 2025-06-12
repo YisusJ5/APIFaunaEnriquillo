@@ -46,8 +46,6 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository
 
         }
 
-        public async Task SaveChangesAsync(CancellationToken cancellationToken) =>
-            await _dbContext.SaveChangesAsync();
 
         public async Task UpdateAsync(T entity, CancellationToken cancellationToken)
         {
@@ -61,5 +59,8 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository
             var exists = _dbContext.Set<T>().AnyAsync(predicate);
             return exists;
         }
+
+        public async Task SaveChangesAsync(CancellationToken cancellationToken) =>
+            await _dbContext.SaveChangesAsync();
     }
 }

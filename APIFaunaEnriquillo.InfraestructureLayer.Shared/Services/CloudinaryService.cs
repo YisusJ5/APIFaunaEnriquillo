@@ -28,7 +28,10 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Shared.Services
 
             };
             var uploadResult = await cloudinary.UploadAsync(image, cancellationToken);
+            if(uploadResult.SecureUrl == null)
+            throw new Exception($"Error al subir la imagen: {uploadResult.Error?.Message ?? "No se recibió URL de Cloudinary."}");
             return uploadResult.SecureUrl.ToString();
+
         }
     }
 }

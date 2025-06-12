@@ -31,5 +31,14 @@ namespace APIFaunaEnriquillo.InfraestructureLayer.Persistence.Repository
                  Where(animal => animal.NombreCientifico.Value.ToLower().Contains(ScientificName.ToLower())).
                  FirstOrDefaultAsync(cancellationToken);
         }
+
+        public async Task<IEnumerable<Animal>> GetRecentAsync(CancellationToken cancellationToken)
+        {
+            return await _dbContext.Set<Animal>()
+           .AsNoTracking()
+           .OrderByDescending(r => r.CreatedAt)
+           .Take(10)
+           .ToListAsync(cancellationToken);
+        }
     }
 }

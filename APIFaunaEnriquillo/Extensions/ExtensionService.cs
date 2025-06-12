@@ -1,5 +1,4 @@
 ﻿using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Password.Forgot;
-using APIFaunaEnriquillo.Core.AplicationLayer.Dtos;
 using Asp.Versioning;
 using FluentValidation;
 using Microsoft.AspNetCore.RateLimiting;
@@ -10,6 +9,13 @@ using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Register;
 using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account.Password.Reset;
 using APIFaunaEnriquillo.ExceptionHandlers;
 using APIFaunaEnriquillo.Exceptions;
+using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.Account;
+using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.PlantasDto;
+using APIFaunaEnriquillo.Validations.Planta;
+using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.AnimalesDto;
+using APIFaunaEnriquillo.Core.AplicationLayer.Dtos.HabitatDto;
+using APIFaunaEnriquillo.Validations.Animal;
+using APIFaunaEnriquillo.Validations.Habitat;
 
 namespace APIFaunaEnriquillo.Extensions
 {
@@ -42,6 +48,12 @@ namespace APIFaunaEnriquillo.Extensions
             services.AddScoped<IValidator<RegisterRequest>, RegisterValidation>();
             services.AddScoped<IValidator<ResetPasswordRequest>, ResetPasswordValidation>();
             services.AddScoped<IValidator<UpdateAccountDto>, UpdatePasswordValidation>();
+            services.AddScoped<IValidator<PlantaInsertDto>, PlantaInsertValidation>();
+            services.AddScoped<IValidator<PlantaUpdateDto>, PlantaUpdateValidation>();
+            services.AddScoped<IValidator<AnimalInsertDto>, AnimalInsertValidation>();
+            services.AddScoped<IValidator<AnimalUpdateDto>, AnimalUpdateValidation>();
+            services.AddScoped<IValidator<HabitatInsertDto>, HabitatInsertValidation>();
+            services.AddScoped<IValidator<HabitatUpdateDto>, HabitatUpdateValidation>();
 
         }
 
